@@ -1,15 +1,17 @@
 {
+  "author": "Quentin 'Kant' Jaccarino",
   "name": "whatashop",
   "version": "0.0.1",
   "description": "Online Shopping Application",
-  "main": "index.js",
+  "homepage": "https://github.com/Justkant/WhatAShop#readme",
+  "license": "MIT",
   "private": true,
-  "scripts": {
-    "start": "webpack-dev-server --hot --inline"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Justkant/WhatAShop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Justkant/WhatAShop/issues"
   },
   "keywords": [
     "Online",
@@ -20,24 +22,136 @@
     "react",
     "nodejs"
   ],
-  "author": "Quentin 'Kant' Jaccarino",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Justkant/WhatAShop/issues"
+  "main": "bin/server.js",
+  "scripts": {
+    "start": "concurrent --kill-others \"npm run start-prod\" \"npm run start-prod-api\"",
+    "start-prod": "node ./node_modules/better-npm-run start-prod",
+    "start-prod-api": "node ./node_modules/better-npm-run start-prod-api",
+    "build": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
+    "lint": "eslint -c .eslintrc src",
+    "start-dev": "node ./node_modules/better-npm-run start-dev",
+    "start-dev-api": "node ./node_modules/better-npm-run start-dev-api",
+    "watch-client": "node ./node_modules/better-npm-run watch-client",
+    "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\" \"npm run start-dev-api\"",
+    "test": "karma start"
   },
-  "homepage": "https://github.com/Justkant/WhatAShop#readme",
-  "devDependencies": {
-    "babel-core": "^5.8.24",
-    "babel-loader": "^5.3.2",
-    "css-loader": "^0.18.0",
-    "file-loader": "^0.8.4",
-    "react-hot-loader": "^1.3.0",
-    "style-loader": "^0.12.3",
-    "stylus-loader": "^1.3.0",
-    "webpack": "^1.12.1",
-    "webpack-dev-server": "^1.11.0"
+  "betterScripts": {
+    "start-prod": {
+      "command": "node ./bin/server.js",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "production",
+        "APIPORT": 3030
+      }
+    },
+    "start-prod-api": {
+      "command": "node ./bin/api.js",
+      "env": {
+        "NODE_PATH": "./api",
+        "NODE_ENV": "production",
+        "APIPORT": 3030,
+        "DB_HOST": "localhost",
+        "DB_PORT": 28015,
+        "DB_NAME": "whatashop"
+      }
+    },
+    "start-dev": {
+      "command": "node ./bin/server.js",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "development",
+        "PORT": 3000,
+        "APIPORT": 3030
+      }
+    },
+    "start-dev-api": {
+      "command": "node ./bin/api.js",
+      "env": {
+        "NODE_PATH": "./api",
+        "NODE_ENV": "development",
+        "APIPORT": 3030,
+        "DB_HOST": "localhost",
+        "DB_PORT": 28015,
+        "DB_NAME": "whatashop"
+      }
+    },
+    "watch-client": {
+      "command": "node webpack/webpack-dev-server.js",
+      "env": {
+        "UV_THREADPOOL_SIZE": 100,
+        "NODE_PATH": "./src"
+      }
+    }
   },
   "dependencies": {
-    "react": "^0.13.3"
+    "babel": "5.8.23",
+    "babel-plugin-typecheck": "1.3.0",
+    "body-parser": "1.14.1",
+    "express": "4.13.3",
+    "file-loader": "0.8.4",
+    "history": "1.11.1",
+    "http-proxy": "1.11.2",
+    "jsonwebtoken": "^5.0.5",
+    "lru-memoize": "1.0.0",
+    "map-props": "1.0.0",
+    "multireducer": "1.0.0",
+    "piping": "0.3.0",
+    "pretty-error": "1.2.0",
+    "query-string": "2.4.1",
+    "react": "^0.14.0-rc1",
+    "react-document-meta": "2.0.0-rc2",
+    "react-dom": "0.14.0-rc1",
+    "react-redux": "3.0.1",
+    "react-router": "1.0.0-rc1",
+    "redux": "3.0.2",
+    "redux-form": "2.0.0",
+    "serialize-javascript": "1.1.2",
+    "serve-favicon": "2.3.0",
+    "serve-static": "1.10.0",
+    "superagent": "1.4.0",
+    "thinky": "^2.1.8",
+    "url-loader": "0.5.6",
+    "webpack-isomorphic-tools": "0.9.0"
+  },
+  "devDependencies": {
+    "autoprefixer-stylus": "0.8.0",
+    "babel-core": "5.8.25",
+    "babel-eslint": "4.1.3",
+    "babel-loader": "5.3.2",
+    "babel-plugin-react-transform": "1.1.1",
+    "babel-runtime": "5.8.25",
+    "better-npm-run": "0.0.2",
+    "chai": "3.3.0",
+    "clean-webpack-plugin": "0.1.3",
+    "concurrently": "0.1.1",
+    "css-loader": "0.19.0",
+    "eslint": "1.5.1",
+    "eslint-config-airbnb": "0.1.0",
+    "eslint-loader": "1.0.0",
+    "eslint-plugin-react": "3.5.0",
+    "extract-text-webpack-plugin": "0.8.2",
+    "json-loader": "0.5.3",
+    "karma": "0.13.10",
+    "karma-chrome-launcher": "0.2.0",
+    "karma-cli": "0.1.1",
+    "karma-firefox-launcher": "0.1.6",
+    "karma-mocha": "0.2.0",
+    "karma-mocha-reporter": "1.1.1",
+    "karma-sourcemap-loader": "0.3.5",
+    "karma-webpack": "1.7.0",
+    "mocha": "2.3.3",
+    "react-a11y": "0.2.6",
+    "react-addons-test-utils": "0.14.0-rc1",
+    "react-hot-loader": "1.3.0",
+    "react-transform-hmr": "1.0.1",
+    "redux-devtools": "2.1.5",
+    "style-loader": "0.12.4",
+    "stylus-loader": "1.3.1",
+    "webpack": "1.12.2",
+    "webpack-dev-middleware": "1.2.0",
+    "webpack-hot-middleware": "2.3.0"
+  },
+  "engines": {
+    "node": "4.0.0"
   }
 }

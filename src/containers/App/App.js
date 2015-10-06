@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import DocumentMeta from 'react-document-meta';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import DocumentMeta from 'react-document-meta';
-import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
+import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
+import { Market, SignupLogin } from '../index';
+import './App.styl';
 
 const title = 'WhatAShop';
 const description = 'WhatAShop, an online shopping website.';
@@ -26,12 +27,11 @@ const meta = {
 
 @connect(
     state => ({user: state.auth.user}),
-    dispatch => bindActionCreators({logout}, dispatch))
+    dispatch => bindActionCreators({loadAuth}, dispatch))
 export default class App extends Component {
   static propTypes = {
-    children: PropTypes.object.isRequired,
+    children: PropTypes.object,
     user: PropTypes.object,
-    logout: PropTypes.func.isRequired,
     history: PropTypes.object
   };
 
@@ -39,7 +39,7 @@ export default class App extends Component {
     store: PropTypes.object.isRequired
   };
 
-  componentWillReceiveProps(nextProps) {
+  /* componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
       // login
       this.props.history.pushState(null, '/');
@@ -50,7 +50,7 @@ export default class App extends Component {
       // console.log(this.props.user);
       // console.log(nextProps.user);
     }
-  }
+  } */
 
   static fetchData(store) {
     const promises = [];
@@ -60,53 +60,13 @@ export default class App extends Component {
     return Promise.all(promises);
   }
 
-  handleLogout(event) {
-    event.preventDefault();
-    this.props.logout();
-  }
-
   render() {
     const {user} = this.props;
-    const styles = require('./App.styl');
     return (
-      <div className={styles.app}>
+      <div>
         <DocumentMeta {...meta}/>
-        <nav className="navbar navbar-default navbar-fixed-top">
-          <div className="container">
-            <Link to="/" className="navbar-brand">
-              <div className={styles.brand}/>
-              React Redux Example
-            </Link>
-
-            <ul className="nav navbar-nav">
-              {user && <li><Link to="/chat">Chat</Link></li>}
-
-              <li><Link to="/widgets">Widgets</Link></li>
-              <li><Link to="/survey">Survey</Link></li>
-              <li><Link to="/about">About Us</Link></li>
-              {!user && <li><Link to="/login">Login</Link></li>}
-              {user && <li className="logout-link"><a href="/logout" onClick={this.handleLogout.bind(this)}>Logout</a></li>}
-            </ul>
-            {user &&
-            <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.name}</strong>.</p>}
-            <ul className="nav navbar-nav navbar-right">
-              <li>
-                <a href="https://github.com/erikras/react-redux-universal-hot-example"
-                   target="_blank" title="View on Github"><i className="fa fa-github"/></a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-        <div className={styles.appContent}>
-          {this.props.children}
-        </div>
-
-        <div className="well text-center">
-          Have questions? Ask for help <a
-          href="https://github.com/erikras/react-redux-universal-hot-example/issues"
-          target="_blank">on Github</a> or in the <a
-          href="http://www.reactiflux.com/" target="_blank">#react-redux-universal</a> Slack channel.
-        </div>
+        {!user && <SignupLogin/>}
+        {user && <Market children={this.props.children}/>}
       </div>
     );
   }

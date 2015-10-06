@@ -27,7 +27,7 @@ describe('Search', () => {
   );
 
   it('should render correctly', () => {
-    expect(renderer).to.be.ok();
+    expect(renderer).to.be.ok;
   });
 
 });

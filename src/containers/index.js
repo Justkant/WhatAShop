@@ -1,5 +1,6 @@
 export App from './App/App';
 export Market from './Market/Market';
-export Login from './Login/Login';
-export RequireLogin from './RequireLogin/RequireLogin';
+export SignupLogin from './SignupLogin/SignupLogin';
+// export Product from './Product/Product';
+// export Profile from './Profile/Profile';
 export NotFound from './NotFound/NotFound';

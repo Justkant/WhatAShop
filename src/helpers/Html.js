@@ -16,13 +16,13 @@ import DocumentMeta from 'react-document-meta';
 export default class Html extends Component {
   static propTypes = {
     assets: PropTypes.object,
-    component: PropTypes.object,
+    component: PropTypes.node,
     store: PropTypes.object
   }
 
   render() {
     const {assets, component, store} = this.props;
-    const content = ReactDOM.renderToString(component);
+    const content = component ? ReactDOM.renderToString(component) : '';
 
     return (
       <html lang="en-us">

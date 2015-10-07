@@ -3,6 +3,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var CleanPlugin = require('clean-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var autoprefixer = require('autoprefixer-stylus');
 var strip = require('strip-loader');
 
@@ -29,7 +30,7 @@ module.exports = {
     loaders: [
       {test: /\.js$/, exclude: /node_modules/, loaders: [strip.loader('console.log', 'debug'), 'babel']},
       {test: /\.json$/, loader: 'json-loader'},
-      {test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader'},
+      {test: /\.styl$/, loader: ExtractTextPlugin.extract('style', 'css-loader!stylus-loader') },
       {test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240'}
     ]
   },
@@ -47,6 +48,7 @@ module.exports = {
   plugins: [
     new CleanPlugin([relativeAssetsPath]),
 
+    new ExtractTextPlugin('[name]-[chunkhash].css', {allChunks: true}),
     new webpack.DefinePlugin({
       __CLIENT__: true,
       __SERVER__: false,

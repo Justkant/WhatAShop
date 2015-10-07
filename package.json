@@ -28,6 +28,7 @@
     "start-prod": "node ./node_modules/better-npm-run start-prod",
     "start-prod-api": "node ./node_modules/better-npm-run start-prod-api",
     "build": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
+    "postinstall": "webpack --display-error-details --config webpack/prod.config.js",
     "lint": "eslint -c .eslintrc src",
     "start-dev": "node ./node_modules/better-npm-run start-dev",
     "start-dev-api": "node ./node_modules/better-npm-run start-dev-api",
@@ -41,6 +42,7 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
+        "PORT": 3000,
         "APIPORT": 3030
       }
     },
@@ -129,6 +131,7 @@
     "eslint-config-airbnb": "0.1.0",
     "eslint-loader": "1.0.0",
     "eslint-plugin-react": "3.5.1",
+    "extract-text-webpack-plugin": "^0.8.2",
     "json-loader": "0.5.3",
     "karma": "0.13.10",
     "karma-chrome-launcher": "0.2.1",

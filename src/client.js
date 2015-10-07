@@ -4,8 +4,7 @@
 import 'babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import createHistory from 'history/lib/createBrowserHistory';
-import createLocation from 'history/lib/createLocation';
+import { createHistory } from 'history';
 import createStore from './redux/create';
 import ApiClient from './helpers/ApiClient';
 import universalRouter from './helpers/universalRouter';
@@ -16,7 +15,7 @@ const client = new ApiClient();
 const dest = document.getElementById('content');
 const store = createStore(client, window.__data);
 
-const location = createLocation(document.location.pathname, document.location.search);
+const location = history.createLocation(document.location.pathname, document.location.search);
 
 const render = (loc, hist, str, preload) => {
   return universalRouter(loc, hist, str, preload)
@@ -44,13 +43,12 @@ history.listenBefore((loc, callback) => {
     .then((callback));
 });
 
-render(location, history, store);
+render(location, history, store, !dest.firstChild);
 
 if (process.env.NODE_ENV !== 'production') {
   window.React = React; // enable debugger
-  const reactRoot = window.document.getElementById('content');
 
-  if (!reactRoot || !reactRoot.firstChild || !reactRoot.firstChild.attributes || !reactRoot.firstChild.attributes['data-react-checksum']) {
+  if (!dest || !dest.firstChild || !dest.firstChild.attributes || !dest.firstChild.attributes['data-react-checksum']) {
     console.error('Server-side React render was discarded. Make sure that your initial render does not contain any client-side code.');
   }
 }

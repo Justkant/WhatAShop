@@ -1,7 +1,7 @@
 import Express from 'express';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import createLocation from 'history/lib/createLocation';
+import { createMemoryHistory } from 'history';
 import config from './config';
 import favicon from 'serve-favicon';
 import httpProxy from 'http-proxy';
@@ -47,7 +47,7 @@ app.use((req, res) => {
   }
   const client = new ApiClient(req);
   const store = createStore(client);
-  const location = createLocation(req.path, req.query);
+  const location = createMemoryHistory().createLocation(req.originalUrl);
 
   universalRouter(location, undefined, store, true)
     .then(({component, redirectLocation}) => {
@@ -65,8 +65,7 @@ app.use((req, res) => {
       }
       console.error('ROUTER ERROR:', pretty.render(error));
       res.send('<!doctype html>\n' +
-        ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={<div></div>}
-                                      store={store}/>));
+        ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>));
     });
 });
 

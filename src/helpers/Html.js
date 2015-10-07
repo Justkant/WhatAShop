@@ -16,13 +16,13 @@ import DocumentMeta from 'react-document-meta';
 export default class Html extends Component {
   static propTypes = {
     assets: PropTypes.object,
-    component: PropTypes.object,
+    component: PropTypes.node,
     store: PropTypes.object
   }
 
   render() {
     const {assets, component, store} = this.props;
-    const content = ReactDOM.renderToString(component);
+    const content = component ? ReactDOM.renderToString(component) : '';
 
     return (
       <html lang="en-us">
@@ -31,6 +31,7 @@ export default class Html extends Component {
           {DocumentMeta.renderAsReact()}
 
           <link rel="shortcut icon" href="/favicon.ico" />
+          <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css' />
 
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {Object.keys(assets.styles).map((style, index) =>

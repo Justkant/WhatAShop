@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
+import { Header } from 'components';
 
 const title = 'WhatAShop';
 const description = 'WhatAShop, an online shopping website.';
@@ -55,6 +56,7 @@ export default class App extends Component {
     return (
       <div>
         <DocumentMeta {...meta}/>
+        <Header/>
         {this.props.children}
       </div>
     );

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
   App,
   Market,
   Signup,
   Login,
+  Profile,
   NotFound
 } from './containers';
 
@@ -30,10 +31,11 @@ function requireAuth(store) {
 
 export default function(store) {
   return (
-    <Route component={App}>
-      <Route path="/" component={Market} onEnter={requireAuth(store)}/>
-      <Route path="/signup" component={Signup} />
-      <Route path="/login" component={Login} />
+    <Route path="/" component={App}>
+      <IndexRoute component={Market} onEnter={requireAuth(store)}/>
+      <Route path="profile" component={Profile} />
+      <Route path="signup" component={Signup} />
+      <Route path="login" component={Login} />
       <Route path="*" component={NotFound} status={404} />
     </Route>
   );

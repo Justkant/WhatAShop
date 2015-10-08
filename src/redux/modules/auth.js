@@ -80,7 +80,7 @@ export function isLoaded(globalState) {
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: () => new Promise((resolve, reject) => reject(null)) // (client) => client.get('/loadAuth')
+    promise: () => new Promise((resolve) => resolve({name: 'kant'})) // (client) => client.get('/loadAuth')
   };
 }
 

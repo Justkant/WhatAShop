@@ -1,13 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Background } from 'components';
 import './Login.styl';
 
 export default class Login extends Component {
-  static propTypes = {
-    history: PropTypes.object
-  };
-
   render() {
     return (
       <div>

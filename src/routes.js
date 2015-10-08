@@ -6,8 +6,6 @@ import {
   Market,
   Signup,
   Login,
-  /* Profile,
-  Product, */
   NotFound
 } from './containers';
 
@@ -30,15 +28,13 @@ function requireAuth(store) {
   };
 }
 
-export default function(history, store) {
+export default function(store) {
   return (
-    <Route component={App} history={history}>
+    <Route component={App}>
       <Route path="/" component={Market} onEnter={requireAuth(store)}/>
       <Route path="/signup" component={Signup} />
       <Route path="/login" component={Login} />
-      {/* <Route path="profile" component={Profile} />
-      <Route path="product" component={Product} /> */}
-      <Route path="*" component={NotFound}/>
+      <Route path="*" component={NotFound} status={404} />
     </Route>
   );
 }

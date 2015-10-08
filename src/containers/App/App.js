@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import DocumentMeta from 'react-document-meta';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { pushState } from 'redux-router';
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import './App.styl';
 
@@ -26,34 +27,28 @@ const meta = {
 
 @connect(
     state => ({user: state.auth.user}),
-    dispatch => bindActionCreators({loadAuth}, dispatch))
+    dispatch => bindActionCreators({pushState}, dispatch))
 export default class App extends Component {
   static propTypes = {
-    children: PropTypes.object,
-    user: PropTypes.object,
-    history: PropTypes.object
-  };
-
-  static contextTypes = {
-    store: PropTypes.object.isRequired
+    children: PropTypes.object.isRequired,
+    pushState: PropTypes.func.isRequired,
+    user: PropTypes.object
   };
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
       // login
-      this.props.history.pushState(null, '/');
+      this.props.pushState(null, '/');
     } else if (this.props.user && !nextProps.user) {
       // logout
-      this.props.history.pushState(null, '/signup');
+      this.props.pushState(null, '/signup');
     }
   }
 
-  static fetchData(store) {
-    const promises = [];
-    if (!isAuthLoaded(store.getState())) {
-      promises.push(store.dispatch(loadAuth()));
+  static fetchData(getState, dispatch) {
+    if (!isAuthLoaded(getState())) {
+      return dispatch(loadAuth());
     }
-    return Promise.all(promises);
   }
 
   render() {

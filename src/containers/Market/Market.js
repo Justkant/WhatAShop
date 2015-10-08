@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import {isLoaded as isAuthLoaded, load as loadAuth} from 'redux/modules/auth';
 import './Market.styl';
 
 @connect(state => ({user: state.auth.user}))
@@ -9,13 +10,13 @@ export default class Market extends Component {
     user: PropTypes.object
   };
 
-  static contextTypes = {
-    store: PropTypes.object.isRequired
-  };
+  static fetchData(getState, dispatch) {
+    if (!isAuthLoaded(getState())) {
+      return dispatch(loadAuth());
+    }
+  }
 
   render() {
-    /* const styles = require('./Market.styl');
-     const logoImage = require('./logo.png'); */
     const {user, children} = this.props;
 
     return (

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { IndexLink } from 'react-router';
 import { Background } from 'components';
 
 export default class Signup extends Component {
@@ -7,14 +7,6 @@ export default class Signup extends Component {
     const styles = require('./Signup.styl');
     return (
       <div>
-        <header>
-          <a className="headerLogo">
-            <b>WS</b>
-          </a>
-          <div className="flexSpace"></div>
-          <Link to="/login" className={styles.outlineButton}>Log in</Link>
-        </header>
-
         <div className={styles.centerSignup}>
           <div className={styles.signupContainer}>
             <h2 className={styles.title}><b>W</b>hat A <b>S</b>hop</h2>
@@ -29,7 +21,7 @@ export default class Signup extends Component {
                 <input type="text" name="username" placeholder="Username"/>
               </div>
             </form>
-            <Link to="/" className={styles.signupButton}>Sign up</Link>
+            <IndexLink to="/" className={styles.signupButton}>Sign up</IndexLink>
           </div>
         </div>
 

@@ -6,21 +6,21 @@ import {Provider} from 'react-redux';
 
 const getFetchData = (component = {}) => {
   return component.WrappedComponent ?
-    getFetchData(component.WrappedComponent) :
-    component.fetchData;
+  getFetchData(component.WrappedComponent) :
+  component.fetchData;
 };
 
 const fetchDataForContainers = (containers, store, params, query) => {
   const promises = containers
-    .filter((component) => getFetchData(component))         // only look at ones with a static fetchData()
-    .map(getFetchData)                                      // pull out fetch data methods
-    .map(fetchData => fetchData(store, params, query || {}));  // call fetch data methods and save promises
+  .filter((component) => getFetchData(component))         // only look at ones with a static fetchData()
+  .map(getFetchData)                                      // pull out fetch data methods
+  .map(fetchData => fetchData(store, params, query || {}));  // call fetch data methods and save promises
 
   return Promise.all(promises);
 };
 
 export default function universalRouter(location, history, store, preload) {
-  const routes = createRoutes(history);
+  const routes = createRoutes(history, store);
   return new Promise((resolve, reject) => {
     match({routes, history, location}, (error, redirectLocation, renderProps) => {
       if (error) {
@@ -28,6 +28,10 @@ export default function universalRouter(location, history, store, preload) {
       }
 
       if (redirectLocation) {
+        if (history) {
+          // Client only
+          return history.replaceState(null, redirectLocation.pathname);
+        }
         return resolve({
           redirectLocation
         });
@@ -52,7 +56,7 @@ export default function universalRouter(location, history, store, preload) {
           renderProps.params,
           qs.parse(renderProps.location.search)
         )
-          .then(() => resolveWithComponent(), err => reject(err));
+        .then(() => resolveWithComponent(), err => reject(err));
       } else {
         resolveWithComponent();
       }

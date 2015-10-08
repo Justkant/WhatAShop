@@ -3,7 +3,6 @@ import DocumentMeta from 'react-document-meta';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
-import { Market, SignupLogin } from '../index';
 import './App.styl';
 
 const title = 'WhatAShop';
@@ -39,18 +38,15 @@ export default class App extends Component {
     store: PropTypes.object.isRequired
   };
 
-  /* componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
       // login
       this.props.history.pushState(null, '/');
     } else if (this.props.user && !nextProps.user) {
       // logout
-      this.props.history.pushState(null, '/login');
-    } else {
-      // console.log(this.props.user);
-      // console.log(nextProps.user);
+      this.props.history.pushState(null, '/signup');
     }
-  } */
+  }
 
   static fetchData(store) {
     const promises = [];
@@ -61,12 +57,10 @@ export default class App extends Component {
   }
 
   render() {
-    const {user} = this.props;
     return (
       <div>
         <DocumentMeta {...meta}/>
-        {!user && <SignupLogin/>}
-        {user && <Market children={this.props.children}/>}
+        {this.props.children}
       </div>
     );
   }

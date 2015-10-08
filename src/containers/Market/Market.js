@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import './Market.styl';
 
-@connect(
-  state => ({user: state.auth.user}))
+@connect(state => ({user: state.auth.user}))
 export default class Market extends Component {
   static propTypes = {
     children: PropTypes.object,
@@ -17,7 +16,7 @@ export default class Market extends Component {
   render() {
     /* const styles = require('./Market.styl');
      const logoImage = require('./logo.png'); */
-    const {user} = this.props;
+    const {user, children} = this.props;
 
     return (
       <div>
@@ -38,7 +37,7 @@ export default class Market extends Component {
           </div>
         </header>
 
-        {this.props.children}
+        {children}
       </div>
     );
   }

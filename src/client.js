@@ -4,7 +4,7 @@
 import 'babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createHistory } from 'history';
+import createHistory from 'history/lib/createBrowserHistory';
 import createStore from './redux/create';
 import ApiClient from './helpers/ApiClient';
 import universalRouter from './helpers/universalRouter';
@@ -34,9 +34,6 @@ const render = (loc, hist, str, preload) => {
       console.error(error);
     });
 };
-
-history.listen(() => {
-});
 
 history.listenBefore((loc, callback) => {
   render(loc, history, store, true)

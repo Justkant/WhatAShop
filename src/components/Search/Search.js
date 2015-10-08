@@ -10,7 +10,7 @@ export default class InfoBar extends Component {
   };
 
   render() {
-    const { search } = this.props; // eslint-disable-line no-shadow
+    const { search } = this.props;
     return (
       <div>
         <div className="container">

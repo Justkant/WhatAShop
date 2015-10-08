@@ -1,20 +1,14 @@
-import React, { Component } from 'react';
-import './SignupLogin.styl';
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
+import { Background } from 'components';
+import './Signup.styl';
 
-export default class SignupLogin extends Component {
-  constructor() {
-    super();
-    this.state = {
-      signup: true
-    };
-  }
-
-  toggleSignup() {
-    this.setState({signup: !this.state.signup});
-  }
+export default class Signup extends Component {
+  static propTypes = {
+    history: PropTypes.object
+  };
 
   render() {
-    const {signup} = this.state;
     return (
       <div>
         <header>
@@ -22,10 +16,7 @@ export default class SignupLogin extends Component {
             <b>WS</b>
           </a>
           <div className="flexSpace"></div>
-          <a onClick={this.toggleSignup.bind(this)} className="outlineButton">
-            {signup && 'Log in'}
-            {!signup && 'Sign up'}
-          </a>
+          <Link to="/login" className="outlineButton">Log in</Link>
         </header>
 
         <div className="centerSignup">
@@ -38,19 +29,15 @@ export default class SignupLogin extends Component {
               <div className="inputBox">
                 <input type="password" name="password" placeholder="Password"/>
               </div>
-              {signup && <div className="inputBox">
+              <div className="inputBox">
                 <input type="text" name="username" placeholder="Username"/>
-              </div>}
+              </div>
             </form>
-            <a className="signupButton">
-              {signup && 'Sign up'}
-              {!signup && 'Log in'}
-            </a>
+            <Link to="/" className="signupButton">Sign up</Link>
           </div>
         </div>
 
-        <div className="background"></div>
-        <div className="backgroundFader"></div>
+        <Background/>
       </div>
     );
   }

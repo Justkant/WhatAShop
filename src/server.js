@@ -1,7 +1,7 @@
 import Express from 'express';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import { createMemoryHistory } from 'history';
+import createHistory from 'history/lib/createHistory';
 import config from './config';
 import favicon from 'serve-favicon';
 import httpProxy from 'http-proxy';
@@ -47,26 +47,24 @@ app.use((req, res) => {
   }
   const client = new ApiClient(req);
   const store = createStore(client);
-  const location = createMemoryHistory().createLocation(req.originalUrl);
+  const location = createHistory().createLocation(req.originalUrl);
 
   universalRouter(location, undefined, store, true)
-    .then(({component, redirectLocation}) => {
-      if (redirectLocation) {
-        res.redirect(redirectLocation.pathname + redirectLocation.search);
-        return;
-      }
-      res.send('<!doctype html>\n' +
-        ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>));
-    })
-    .catch((error) => {
-      if (error.redirect) {
-        res.redirect(error.redirect);
-        return;
-      }
-      console.error('ROUTER ERROR:', pretty.render(error));
-      res.send('<!doctype html>\n' +
-        ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>));
-    });
+  .then(({component, redirectLocation}) => {
+    if (redirectLocation) {
+      res.redirect(redirectLocation.pathname + redirectLocation.search);
+      return;
+    }
+    res.send('<!doctype html>\n' + ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>));
+  })
+  .catch((error) => {
+    if (error.redirect) {
+      res.redirect(error.redirect);
+      return;
+    }
+    console.error('ROUTER ERROR:', pretty.render(error));
+    res.send('<!doctype html>\n' + ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>));
+  });
 });
 
 if (config.port) {

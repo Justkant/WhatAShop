@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Search } from 'components';
 import {isLoaded as isAuthLoaded, load as loadAuth} from 'redux/modules/auth';
-import './Market.styl';
 
 @connect(state => ({user: state.auth.user}))
 export default class Market extends Component {
@@ -18,21 +18,20 @@ export default class Market extends Component {
 
   render() {
     const {user, children} = this.props;
+    const styles = require('./Market.styl');
 
     return (
       <div>
-        <header className="blue">
+        <header className={styles.blue}>
           <a className="headerLogo">
             <b>WS</b>
           </a>
           <div className="flexSpace"></div>
-          <div className="searchBar">
-            <input type="text" name="search" placeholder="Search"/>
-          </div>
+          <Search/>
           <div className="flexSpace"></div>
-          <div className="linkDropdown">
-            <a className="buttonLink">
-              <img src="profile.jpg"/>
+          <div className={styles.linkDropdown}>
+            <a className={styles.buttonLink}>
+              <img src="default-user.png"/>
               <span>{user.name}</span>
             </a>
           </div>

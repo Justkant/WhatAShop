@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
-import './App.styl';
 
 const title = 'WhatAShop';
 const description = 'WhatAShop, an online shopping website.';
@@ -52,6 +51,7 @@ export default class App extends Component {
   }
 
   render() {
+    require('./App.styl');
     return (
       <div>
         <DocumentMeta {...meta}/>

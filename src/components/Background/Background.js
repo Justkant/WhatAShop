@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import './Background.styl';
 
 export default class Background extends Component {
   render() {
+    const styles = require('./Background.styl');
     return (
       <div>
-        <div className="background"></div>
-        <div className="backgroundFader"></div>
+        <div className={styles.background}></div>
+        <div className={styles.backgroundFader}></div>
       </div>
     );
   }

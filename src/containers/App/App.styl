@@ -5,10 +5,6 @@ html, body {
   margin: 0;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 header {
   padding-right: 5%;
   padding-left: 5%;
@@ -23,13 +19,19 @@ header {
   align-items: center;
 }
 
-.headerLogo {
-  font-size: 1.5em;
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-}
+:global {
+  * {
+    box-sizing: border-box;
+  }
 
-.flexSpace {
-  flex: 1 1 auto;
+  .headerLogo {
+    font-size: 1.5em;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .flexSpace {
+    flex: 1 1 auto;
+  }
 }

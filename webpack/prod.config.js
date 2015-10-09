@@ -30,7 +30,7 @@ module.exports = {
     loaders: [
       {test: /\.js$/, exclude: /node_modules/, loaders: [strip.loader('console.log', 'debug'), 'babel']},
       {test: /\.json$/, loader: 'json-loader'},
-      {test: /\.styl$/, loader: ExtractTextPlugin.extract('style', 'css-loader!stylus-loader') },
+      {test: /\.styl$/, loader: ExtractTextPlugin.extract('style', 'css-loader?modules!stylus-loader') },
       {test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240'}
     ]
   },

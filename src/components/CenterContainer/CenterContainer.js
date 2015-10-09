@@ -1,0 +1,18 @@
+import React, { Component, PropTypes } from 'react';
+
+export default class CenterContainer extends Component {
+  static propTypes = {
+    children: PropTypes.object.isRequired
+  };
+
+  render() {
+    const styles = require('./CenterContainer.styl');
+    return (
+      <div className={styles.center}>
+        <div className={styles.container}>
+          {this.props.children}
+        </div>
+      </div>
+    );
+  }
+}

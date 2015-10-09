@@ -51,7 +51,7 @@ module.exports = {
     loaders: [
       {test: /\.js$/, exclude: /node_modules/, loaders: ['babel?' + JSON.stringify(babelLoaderQuery), 'eslint-loader']},
       {test: /\.json$/, loader: 'json-loader'},
-      {test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader'},
+      {test: /\.styl$/, loader: 'style-loader!css-loader?modules!stylus-loader'},
       {test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240'}
     ]
   },

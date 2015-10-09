@@ -1,44 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import './Market.styl';
+import {isLoaded as isAuthLoaded, load as loadAuth} from 'redux/modules/auth';
 
-@connect(
-  state => ({user: state.auth.user}))
+@connect(state => ({user: state.auth.user}))
 export default class Market extends Component {
   static propTypes = {
     children: PropTypes.object,
     user: PropTypes.object
   };
 
-  static contextTypes = {
-    store: PropTypes.object.isRequired
-  };
+  static fetchData(getState, dispatch) {
+    if (!isAuthLoaded(getState())) {
+      return dispatch(loadAuth());
+    }
+  }
 
   render() {
-    /* const styles = require('./Market.styl');
-     const logoImage = require('./logo.png'); */
-    const {user} = this.props;
+    /* const {user, children} = this.props;
+    const styles = require('./Market.styl'); */
 
     return (
       <div>
-        <header className="blue">
-          <a className="headerLogo">
-            <b>WS</b>
-          </a>
-          <div className="flexSpace"></div>
-          <div className="searchBar">
-            <input type="text" name="search" placeholder="Search"/>
-          </div>
-          <div className="flexSpace"></div>
-          <div className="linkDropdown">
-            <a className="buttonLink">
-              <img src="profile.jpg"/>
-              <span>{user.name}</span>
-            </a>
-          </div>
-        </header>
-
-        {this.props.children}
       </div>
     );
   }

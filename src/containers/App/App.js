@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import DocumentMeta from 'react-document-meta';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { pushState } from 'redux-router';
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
-import { Market, SignupLogin } from '../index';
-import './App.styl';
+import { Header } from 'components';
 
 const title = 'WhatAShop';
 const description = 'WhatAShop, an online shopping website.';
@@ -27,46 +27,37 @@ const meta = {
 
 @connect(
     state => ({user: state.auth.user}),
-    dispatch => bindActionCreators({loadAuth}, dispatch))
+    dispatch => bindActionCreators({pushState}, dispatch))
 export default class App extends Component {
   static propTypes = {
-    children: PropTypes.object,
-    user: PropTypes.object,
-    history: PropTypes.object
+    children: PropTypes.object.isRequired,
+    pushState: PropTypes.func.isRequired,
+    user: PropTypes.object
   };
 
-  static contextTypes = {
-    store: PropTypes.object.isRequired
-  };
-
-  /* componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
       // login
-      this.props.history.pushState(null, '/');
+      this.props.pushState(null, '/');
     } else if (this.props.user && !nextProps.user) {
       // logout
-      this.props.history.pushState(null, '/login');
-    } else {
-      // console.log(this.props.user);
-      // console.log(nextProps.user);
+      this.props.pushState(null, '/signup');
     }
-  } */
+  }
 
-  static fetchData(store) {
-    const promises = [];
-    if (!isAuthLoaded(store.getState())) {
-      promises.push(store.dispatch(loadAuth()));
+  static fetchData(getState, dispatch) {
+    if (!isAuthLoaded(getState())) {
+      return dispatch(loadAuth());
     }
-    return Promise.all(promises);
   }
 
   render() {
-    const {user} = this.props;
+    require('./App.styl');
     return (
       <div>
         <DocumentMeta {...meta}/>
-        {!user && <SignupLogin/>}
-        {user && <Market children={this.props.children}/>}
+        <Header/>
+        {this.props.children}
       </div>
     );
   }

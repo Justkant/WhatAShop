@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
-import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Search } from 'components';
 
@@ -35,7 +34,7 @@ export default class Header extends React.Component {
   getOnlineHeader() {
     const {user} = this.props;
     return (
-      <header className={classNames(this.styles.header, this.styles.blue)}>
+      <header className={this.styles.header + ' ' + this.styles.blue}>
         <IndexLink to="/" className={this.styles.logo}>
           <b>WS</b>
         </IndexLink>
@@ -53,17 +52,15 @@ export default class Header extends React.Component {
   }
 
   render() {
-    const location = this.props.router.location.pathname;
     this.styles = require('./Header.styl');
-    switch (true) {
-      case location === '/signup':
+
+    switch (this.props.router.location.pathname) {
+      case '/signup':
         return this.getOfflineHeader(true);
-      case location === '/login':
+      case '/login':
         return this.getOfflineHeader(false);
-      case /\/.*/.test(location):
-        return this.getOnlineHeader();
       default:
-        return (<div></div>);
+        return this.getOnlineHeader();
     }
   }
 }

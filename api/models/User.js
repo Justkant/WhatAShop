@@ -7,7 +7,8 @@ const User = thinky.createModel('User', {
   email: type.string().email().required(),
   password: type.string().required(),
   admin: type.boolean().default(false),
-  createdAt: type.date().default(thinky.r.now())
+  createdAt: type.date().default(thinky.r.now()),
+  token: type.string()
 });
 
 export default User;

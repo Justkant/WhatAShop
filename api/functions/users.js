@@ -1,27 +1,74 @@
 import { User, Email } from '../models';
+import { hash_password, authenticate } from '../utils/auth';
+import { generate, verify } from '../utils/token';
+import ms from 'ms';
 
 function load(req, res) {
-  res.json(null);
+  if (req.cookies.auth) {
+    verify(req.cookies.auth).then((email) => {
+      User.filter({email: email}).then((results) => {
+        if (results.length > 0) {
+          let user = results[0];
+          if (user.token === req.cookies.auth) {
+            user.token = generate(user.email);
+            user.save().then(() => {
+              res.cookie('auth', user.token, {maxAge: ms('7 days')});
+              res.json(user);
+            }, (error) => {
+              console.error(error);
+              res.status(500).json({msg: 'Contact an administrator', err: error});
+            });
+          } else {
+            res.clearCookie('auth');
+            res.json(null);
+          }
+        } else {
+          res.clearCookie('auth');
+          res.json(null);
+        }
+      }, (error) => {
+        console.error(error);
+        res.clearCookie('auth');
+        res.json(null);
+      });
+    }, (error) => {
+      console.error(error);
+      res.clearCookie('auth');
+      res.json(null);
+    });
+  } else {
+    res.json(null);
+  }
 }
 
 function login(req, res) {
   User.filter({email: req.body.email}).then((results) => {
     if (results.length > 0) {
-      const user = results[0];
-      if (user.password === req.body.password) {
-        res.json(user);
-      } else {
-        res.status(400).json({msg: 'Bad password'});
-      }
+      let user = results[0];
+      authenticate(req.body.password, user.password).then(() => {
+        user.token = generate(user.email);
+        user.save().then(() => {
+          res.cookie('auth', user.token, {maxAge: ms('7 days')});
+          res.json(user);
+        }, (error) => {
+          console.error(error);
+          res.status(500).json({msg: 'Contact an administrator', err: error});
+        });
+      }, (error) => {
+        console.error(error);
+        res.status(400).json({msg: 'Bad password', err: error});
+      });
     } else {
       res.status(404).json({msg: 'No user with this email'});
     }
   }, (error) => {
+    console.error(error);
     res.status(500).json({msg: 'Contact an administrator', err: error});
   });
 }
 
 function logout(req, res) {
+  res.clearCookie('auth');
   res.json(null);
 }
 
@@ -40,25 +87,31 @@ function addUser(req, res) {
   });
 
   email.save().then(() => {
-    const user = new User({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password
-    });
-
-    user.save().then(() => {
-      email.done = true;
-      email.save().then(() => {
-        res.json(user);
-      }, (error) => {
-        console.error(error);
-        res.status(500).json({msg: 'Contact an administrator', err: error});
+    hash_password(req.body.password).then((password) => {
+      const user = new User({
+        username: req.body.username,
+        email: req.body.email,
+        password: password,
+        token: generate(req.body.email)
       });
-    }, (error) => {
-      email.delete(() => {
+
+      user.save().then(() => {
+        email.done = true;
+        email.save().then(() => {
+          res.cookie('auth', user.token, {maxAge: ms('7 days')});
+          res.json(user);
+        }, (error) => {
+          console.error(error);
+          res.status(500).json({msg: 'Contact an administrator', err: error});
+        });
+      }, (error) => {
+        email.delete();
         console.error(error);
         res.status(400).json({msg: 'Something went wrong', err: error});
       });
+    }, (error) => {
+      console.error(error);
+      res.status(500).json({msg: 'Contact an administrator', err: error});
     });
   }, (error) => {
     console.error(error);

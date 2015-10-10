@@ -2,6 +2,7 @@ module.exports = {
     development: {
         isProduction: false,
         apiPort: process.env.APIPORT,
+        secret: process.env.SECRET,
         rethinkdb: {
             host: process.env.DB_HOST,
             port: process.env.DB_PORT,
@@ -11,6 +12,7 @@ module.exports = {
     production: {
         isProduction: true,
         apiPort: process.env.APIPORT,
+        secret: process.env.SECRET,
         rethinkdb: {
             host: process.env.DB_HOST,
             port: process.env.DB_PORT,

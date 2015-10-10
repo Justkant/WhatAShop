@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import DocumentMeta from 'react-document-meta';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
-import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import { Header } from 'components';
 
 const title = 'WhatAShop';
@@ -35,16 +34,12 @@ export default class App extends Component {
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
       // login
+      window.localStorage.token = nextProps.user.token;
       this.props.pushState(null, '/');
     } else if (this.props.user && !nextProps.user) {
       // logout
+      window.localStorage.removeItem('token');
       this.props.pushState(null, '/signup');
-    }
-  }
-
-  static fetchData(getState, dispatch) {
-    if (!isAuthLoaded(getState())) {
-      return dispatch(loadAuth());
     }
   }
 

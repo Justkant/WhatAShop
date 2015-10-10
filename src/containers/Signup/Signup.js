@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Background, CenterContainer, SignupForm, BigButton } from 'components';
+import { Background, CenterContainer, SignupForm } from 'components';
 
 export default class Signup extends Component {
   render() {
@@ -9,7 +9,6 @@ export default class Signup extends Component {
         <CenterContainer>
           <h2 className={styles.title}><b>W</b>hat A <b>S</b>hop</h2>
           <SignupForm/>
-          <BigButton to="/">Sign up</BigButton>
         </CenterContainer>
 
         <Background/>

@@ -23,10 +23,7 @@ export default ({getState, dispatch}) => next => action => {
       const promises = getDataDependencies(components, getState, dispatch, location, params);
 
       if (promises.length > 0) {
-        Promise.all(promises)
-          .then(
-            () => next(action)
-          );
+        Promise.all(promises).then(() => next(action));
       } else {
         next(action);
       }

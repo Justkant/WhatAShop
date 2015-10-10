@@ -1,13 +1,15 @@
 import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { connect } from 'react-redux';
-import { Search } from 'components';
+import { Search, DropDownButton } from 'components';
+import { logout } from 'redux/modules/auth';
 
-@connect(state => ({router: state.router, user: state.auth.user}))
+@connect(state => ({router: state.router, user: state.auth.user}), { logout })
 export default class Header extends React.Component {
   static propTypes = {
     user: PropTypes.object,
-    router: PropTypes.object
+    logout: PropTypes.func.isRequired,
+    router: PropTypes.object.isRequired
   };
 
   getOfflineHeader(Signup) {
@@ -33,6 +35,14 @@ export default class Header extends React.Component {
 
   getOnlineHeader() {
     const {user} = this.props;
+    const profileLink = {
+      to: '/profile',
+      name: user ? user.username : ''
+    };
+    const menuLinks = [
+      {to: '/admin', name: 'Admin'},
+      {func: this.props.logout, name: 'Logout'}
+    ];
     return (
       <header className={this.styles.header + ' ' + this.styles.blue}>
         <IndexLink to="/" className={this.styles.logo}>
@@ -41,12 +51,7 @@ export default class Header extends React.Component {
         <div className="flexSpace"></div>
         <Search/>
         <div className="flexSpace"></div>
-        <div className={this.styles.linkDropdown}>
-          <Link to="/profile" className={this.styles.buttonLink}>
-            <img src="default-user.png"/>
-            <span>{user && user.name}</span>
-          </Link>
-        </div>
+        <DropDownButton link={profileLink} menuLinks={menuLinks}/>
       </header>
     );
   }
@@ -59,8 +64,11 @@ export default class Header extends React.Component {
         return this.getOfflineHeader(true);
       case '/login':
         return this.getOfflineHeader(false);
-      default:
+      case '/':
+      case '/profile':
         return this.getOnlineHeader();
+      default:
+        return (<div></div>);
     }
   }
 }

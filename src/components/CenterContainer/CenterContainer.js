@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 export default class CenterContainer extends Component {
   static propTypes = {
-    children: PropTypes.object.isRequired
+    children: PropTypes.any.isRequired
   };
 
   render() {

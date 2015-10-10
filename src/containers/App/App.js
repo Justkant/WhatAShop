@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import DocumentMeta from 'react-document-meta';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
@@ -25,9 +24,7 @@ const meta = {
   }
 };
 
-@connect(
-    state => ({user: state.auth.user}),
-    dispatch => bindActionCreators({pushState}, dispatch))
+@connect(state => ({user: state.auth.user}), {pushState})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,

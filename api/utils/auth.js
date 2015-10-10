@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export function hash_password(password) {
   return new Promise((resolve, reject) => {

@@ -81,7 +81,6 @@ function getUser(req, res) {
 }
 
 function addUser(req, res) {
-  console.log(req.body);
   const email = new Email({
     id: req.body.email
   });

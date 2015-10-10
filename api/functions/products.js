@@ -1,3 +1,5 @@
+import { Product } from '../models';
+
 function getProducts(req, res) {
 
 }

@@ -3,20 +3,18 @@ require('../server.babel'); // babel registration (runtime transpilation for nod
 import express from 'express';
 import bodyParser from 'body-parser';
 import config from './config';
-import users from './users';
-import products from './products';
+import { users, products } from './functions';
 import PrettyError from 'pretty-error';
 import Thinky from 'thinky';
-
-const thinky = new Thinky(config.rethinkdb);
-const type = thinky.type;
 
 const pretty = new PrettyError();
 const app = express();
 
 app.use(bodyParser.json());
 
-app.get('/login', users.login);
+app.get('/load', users.load);
+app.post('/login', users.login);
+app.get('/logout', users.logout);
 
 app.route('/users')
   .get(users.getUsers)

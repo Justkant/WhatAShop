@@ -1,6 +1,9 @@
 const LOAD = 'auth/LOAD';
 const LOAD_SUCCESS = 'auth/LOAD_SUCCESS';
 const LOAD_FAIL = 'auth/LOAD_FAIL';
+const SIGNUP = 'auth/SIGNUP';
+const SIGNUP_SUCCESS = 'auth/SIGNUP_SUCCESS';
+const SIGNUP_FAIL = 'auth/SIGNUP_FAIL';
 const LOGIN = 'auth/LOGIN';
 const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
 const LOGIN_FAIL = 'auth/LOGIN_FAIL';
@@ -32,6 +35,24 @@ export default function reducer(state = initialState, action = {}) {
         loading: false,
         loaded: false,
         error: action.error
+      };
+    case SIGNUP:
+      return {
+        ...state,
+        signingUp: true
+      };
+    case SIGNUP_SUCCESS:
+      return {
+        ...state,
+        signingUp: false,
+        user: action.result
+      };
+    case SIGNUP_FAIL:
+      return {
+        ...state,
+        signingIn: false,
+        user: null,
+        signupError: action.error
       };
     case LOGIN:
       return {
@@ -80,14 +101,21 @@ export function isLoaded(globalState) {
 export function load() {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: () => new Promise((resolve) => resolve({name: 'kant'})) // (client) => client.get('/loadAuth')
+    promise: (client) => client.get('/load')
   };
 }
 
-export function login(name) {
+export function signup(user) {
+  return {
+    types: [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAIL],
+    promise: (client) => client.post('/users', { data: user })
+  };
+}
+
+export function login(user) {
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-    promise: () => new Promise((resolve) => resolve({name: name})) // (client) => client.post('/login', { data: { name: name } })
+    promise: (client) => client.post('/login', { data: user })
   };
 }
 

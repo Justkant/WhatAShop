@@ -3,6 +3,8 @@ html, body {
   height: 100%;
   width: 100%;
   margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 * {
@@ -10,8 +12,14 @@ html, body {
 }
 
 :global {
-  .topMargin {
-    margin-top: 50px;
+  .topPadding {
+    padding-top: 50px;
+  }
+
+  .flexFull {
+    flex-direction: column;
+    display: flex;
+    flex-grow: 1;
   }
 
   .flexSpace {

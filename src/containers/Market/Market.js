@@ -12,7 +12,7 @@ export default class Market extends Component {
     // const {user, children} = this.props;
     // const styles = require('./Market.styl');
     return (
-      <div className="topMargin">
+      <div className="topPadding flexFull">
         <h2>Market</h2>
       </div>
     );

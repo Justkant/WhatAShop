@@ -46,7 +46,7 @@ export default class App extends Component {
   render() {
     require('./App.styl');
     return (
-      <div>
+      <div className="flexFull">
         <DocumentMeta {...meta}/>
         <Header/>
         {this.props.children}

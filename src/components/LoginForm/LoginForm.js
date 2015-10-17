@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { login } from 'redux/modules/auth';
 
@@ -8,28 +9,35 @@ export default class LoginForm extends Component {
     login: PropTypes.func.isRequired
   };
 
-  login() {
+  login(event) {
     const user = {
       email: this.refs.email.value,
       password: this.refs.password.value
     };
     this.props.login(user);
+    event.preventDefault();
   }
 
   render() {
     const styles = require('./LoginForm.styl');
     return (
-      <form className={styles.form}>
-        <div className={styles.inputGroup}>
-          <div className={styles.inputBox}>
-            <input ref="email" type="email" placeholder="Email"/>
-          </div>
-          <div className={styles.inputBox}>
-            <input ref="password" type="password" placeholder="Password"/>
-          </div>
+      <div className={styles.form}>
+        <div className={styles.container}>
+          <h3 className={styles.title}>Log in to your account</h3>
+          <form className={styles.inputGroup} onSubmit={this.login.bind(this)}>
+            <div className={styles.inputBox}>
+              <input ref="email" type="email" placeholder="Email" required/>
+            </div>
+            <div className={styles.inputBox}>
+              <input ref="password" type="password" placeholder="Password" required/>
+            </div>
+            <input className={styles.inputButton} type="submit" value="Log in"/>
+          </form>
+          <Link to="/signup" className={styles.loginFooter}>
+            New to WhatAShop ? <span className={styles.signupLink}>Sign up</span>
+          </Link>
         </div>
-        <input className={styles.inputButton} onClick={this.login.bind(this)} type="button" value="Log in"/>
-      </form>
+      </div>
     );
   }
 }

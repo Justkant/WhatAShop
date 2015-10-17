@@ -5,14 +5,14 @@ import DocumentMeta from 'react-document-meta';
 
 
 /**
- * Wrapper component containing HTML metadata and boilerplate tags.
- * Used in server-side code only to wrap the string output of the
- * rendered route component.
- *
- * The only thing this component doesn't (and can't) include is the
- * HTML doctype declaration, which is added to the rendered output
- * by the server.js file.
- */
+* Wrapper component containing HTML metadata and boilerplate tags.
+* Used in server-side code only to wrap the string output of the
+* rendered route component.
+*
+* The only thing this component doesn't (and can't) include is the
+* HTML doctype declaration, which is added to the rendered output
+* by the server.js file.
+*/
 export default class Html extends Component {
   static propTypes = {
     assets: PropTypes.object,
@@ -35,11 +35,11 @@ export default class Html extends Component {
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {Object.keys(assets.styles).map((style, index) =>
             <link href={assets.styles[style]} key={index} media="screen, projection"
-                  rel="stylesheet" type="text/css"/>
+              rel="stylesheet" type="text/css"/>
           )}
         </head>
         <body>
-          <div id="content" className="flexFull" dangerouslySetInnerHTML={{__html: content}}/>
+          <div id="content" className="fullFlex" dangerouslySetInnerHTML={{__html: content}}/>
           <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(store.getState())};`}} />
           <script src={assets.javascript.main}/>
         </body>

@@ -1,5 +1,6 @@
 // Webpack config for creating the production bundle.
 
+require('babel-core/polyfill');
 var path = require('path');
 var webpack = require('webpack');
 var CleanPlugin = require('clean-webpack-plugin');
@@ -29,9 +30,10 @@ module.exports = {
   module: {
     loaders: [
       {test: /\.js$/, exclude: /node_modules/, loaders: [strip.loader('console.log', 'debug'), 'babel']},
-      {test: /\.json$/, loader: 'json-loader'},
-      {test: /\.styl$/, loader: ExtractTextPlugin.extract('style', 'css-loader?modules!stylus-loader') },
-      {test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240'}
+      {test: /\.json$/, loader: 'json'},
+      {test: /\.styl$/, loader: ExtractTextPlugin.extract('style', 'css?modules!stylus') },
+      {test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url?limit=10240'},
+      {test: /\.ttf$/, loader: 'file'}
     ]
   },
   stylus: {

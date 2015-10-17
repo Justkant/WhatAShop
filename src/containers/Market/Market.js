@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { ProductVignette } from 'components';
 import { connect } from 'react-redux';
 
 @connect(state => ({user: state.auth.user}))
@@ -10,10 +11,14 @@ export default class Market extends Component {
 
   render() {
     // const {user, children} = this.props;
-    // const styles = require('./Market.styl');
+    const styles = require('./Market.styl');
+    const products = [];
+    for (let index = 0; index < 50; index++) {
+      products.push(<ProductVignette key={index}/>);
+    }
     return (
-      <div className="topPadding flexFull">
-        <h2>Market</h2>
+      <div className={styles.container}>
+        {products}
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Background, CenterContainer, LoginForm } from 'components';
+import { CenterContainer, LoginForm } from 'components';
 
 export default class Login extends Component {
   render() {
@@ -10,8 +10,6 @@ export default class Login extends Component {
           <h2 className={styles.title}><b>W</b>hat A <b>S</b>hop</h2>
           <LoginForm/>
         </CenterContainer>
-
-        <Background/>
       </div>
     );
   }

@@ -1,0 +1,72 @@
+.navbar {
+  flex: 0 0 260px;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.logoContainer {
+  position: relative;
+  height: 55px;
+  padding: 0 25px;
+  clear: both;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(to right,rgba(255,255,255,0) 0,rgba(255,255,255,.06) 100%);
+}
+
+.logoContainer:after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-image: linear-gradient(to right,transparent 0,rgba(0,0,0,.07) 15%,rgba(0,0,0,.1) 50%,rgba(0,0,0,.1) 85%,rgba(0,0,0,.1) 100%);
+}
+
+.logo {
+  text-decoration: none;
+}
+
+.logo i {
+  height: 35px;
+  width: 40px;
+  top: 8px;
+  position: relative;
+  display: inline-block;
+  background: url('./logo.png') no-repeat;
+  background-size: cover;
+}
+
+.logo span {
+  position: relative;
+  top: -1px;
+  display: inline;
+  vertical-align: middle;
+  color: #fff;
+  font-weight: normal;
+  font-size: 15px;
+  margin-left: 7px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.menuContainer {
+  position: relative;
+  height: 55px;
+  line-height: 55px;
+  padding: 0 25px;
+  clear: both;
+  display: flex;
+}
+
+.menuContainer:after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-image: linear-gradient(to right,transparent 0,rgba(0,0,0,.07) 15%,rgba(0,0,0,.1) 50%,rgba(0,0,0,.1) 85%,rgba(0,0,0,.1) 100%);
+}

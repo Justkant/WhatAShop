@@ -3,8 +3,8 @@ import { Link } from 'react-router';
 
 export default class DropDownButton extends Component {
   static propTypes = {
-    link: PropTypes.object.isRequired,
-    menuLinks: PropTypes.array
+    infos: PropTypes.object.isRequired,
+    links: PropTypes.array
   };
 
   constructor() {
@@ -58,23 +58,21 @@ export default class DropDownButton extends Component {
 
   render() {
     const styles = require('./DropDownButton.styl');
-    const {link, menuLinks} = this.props;
+    const {infos, links} = this.props;
     const {showDrop} = this.state;
     return (
       <div className={styles.linkDropdown}>
-        <Link to={link.to} className={styles.buttonLink}>
-          <img src="default-user.png"/>
-          <span>{link.name}</span>
-        </Link>
-        <button className={styles.dropButton} onClick={this.onClickDrop.bind(this)}>
-          |
+        <button className={styles.buttonLink} onClick={this.onClickDrop.bind(this)}>
+          <img className={styles.infosImg} src={infos.image}/>
+          <span className={styles.infosText}>{infos.name}</span>
+          <i className="material-icons md-18">keyboard_arrow_down</i>
         </button>
         <div className={styles.dropContainer + (showDrop ? (' ' + styles.active) : '')}>
-          {menuLinks.map((menuLink) => {
-            if (menuLink.to) {
-              return <Link to={menuLink.to} key={menuLink.name} className={styles.dropLink}>{menuLink.name}</Link>;
+          {links.map((link) => {
+            if (link.to) {
+              return <Link to={link.to} key={link.name} className={styles.dropLink}>{link.name}</Link>;
             }
-            return <button onClick={menuLink.func} key={menuLink.name} className={styles.dropLink}>{menuLink.name}</button>;
+            return <a onClick={link.func} key={link.name} className={styles.dropLink}>{link.name}</a>;
           })}
         </div>
       </div>

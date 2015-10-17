@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import DocumentMeta from 'react-document-meta';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
-import { Header } from 'components';
+import { Navbar, Search } from 'components';
 
 const title = 'WhatAShop';
 const description = 'WhatAShop, an online shopping website.';
@@ -44,12 +44,23 @@ export default class App extends Component {
   }
 
   render() {
-    require('./App.styl');
+    const { user, children } = this.props;
+    const styles = require('./App.styl');
+    const loginApp = (
+      <div className={styles.container}>
+        <Navbar/>
+        <div className={styles.main}>
+          <Search/>
+          {children}
+        </div>
+      </div>
+    );
+
     return (
-      <div className="flexFull">
+      <div className="fullFlex">
         <DocumentMeta {...meta}/>
-        <Header/>
-        {this.props.children}
+        {user && loginApp}
+        {!user && children}
       </div>
     );
   }

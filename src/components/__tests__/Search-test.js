@@ -1,3 +1,4 @@
+/* eslint no-unused-expressions: 0*/
 import React from 'react';
 import {renderIntoDocument} from 'react-addons-test-utils';
 import { expect} from 'chai';

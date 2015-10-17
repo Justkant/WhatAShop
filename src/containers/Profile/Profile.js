@@ -16,7 +16,7 @@ export default class Profile extends Component {
     const {user} = this.props;
     const styles = require('./Profile.styl');
     return (
-      <div className="main">
+      <div className={styles.main}>
         <div className={styles.profileHeader}>
           <div className={styles.container}>
             <img className={styles.profileImage} src="default-user.png"/>

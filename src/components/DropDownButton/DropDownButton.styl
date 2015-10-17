@@ -31,6 +31,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  flex-shrink: 0; // Fix shrink problem on safari when text too large
 }
 
 .infosText {
@@ -42,6 +43,10 @@
   text-align: start;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.buttonLink i {
+  flex-shrink: 0; // Fix shrink problem on safari when text too large
 }
 
 .dropContainer {

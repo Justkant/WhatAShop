@@ -62,11 +62,11 @@ export default class DropDownButton extends Component {
     const {showDrop} = this.state;
     return (
       <div className={styles.linkDropdown}>
-        <button className={styles.buttonLink} onClick={this.onClickDrop.bind(this)}>
+        <a className={styles.buttonLink} onClick={this.onClickDrop.bind(this)}>
           <img className={styles.infosImg} src={infos.image}/>
           <span className={styles.infosText}>{infos.name}</span>
           <i className="material-icons md-18">keyboard_arrow_down</i>
-        </button>
+        </a>
         <div className={styles.dropContainer + (showDrop ? (' ' + styles.active) : '')}>
           {links.map((link) => {
             if (link.to) {

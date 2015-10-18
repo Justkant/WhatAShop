@@ -16,7 +16,7 @@ export function hash_password(password) {
 export function authenticate(password, hash) {
   return new Promise(function (resolve, reject) {
     bcrypt.compare(password, hash, function (error, response) {
-      if(error) return reject(error);
+      if(!response || error) return reject(error);
       return resolve(response);
     });
   });

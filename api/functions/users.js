@@ -3,42 +3,56 @@ import { hash_password, authenticate } from '../utils/auth';
 import { generate, verify } from '../utils/token';
 import ms from 'ms';
 
-function load(req, res) {
-  if (req.cookies.auth) {
-    verify(req.cookies.auth).then((email) => {
-      User.filter({email: email}).then((results) => {
+function checkToken(req, res, cb, error) {
+  const token = req.get('x-api-token') || req.cookies.auth;
+  if (token) {
+    verify(token).then((decoded) => {
+      User.filter({email: decoded.email}).then((results) => {
         if (results.length > 0) {
           let user = results[0];
-          if (user.token === req.cookies.auth) {
-            user.token = generate(user.email);
-            user.save().then(() => {
-              res.cookie('auth', user.token, {maxAge: ms('7 days')});
-              res.json(user);
-            }, (error) => {
-              console.error(error);
-              res.status(500).json({msg: 'Contact an administrator', err: error});
-            });
+          if (user.token === token) {
+            cb(user);
           } else {
             res.clearCookie('auth');
-            res.json(null);
+            res.status(error.status).json(error.body);
           }
         } else {
           res.clearCookie('auth');
-          res.json(null);
+          res.status(error.status).json(error.body);
         }
       }, (error) => {
         console.error(error);
         res.clearCookie('auth');
-        res.json(null);
+        res.status(error.status).json(error.body);
       });
     }, (error) => {
       console.error(error);
       res.clearCookie('auth');
-      res.json(null);
+      res.status(error.status).json(error.body);
     });
   } else {
-    res.json(null);
+    res.status(error.status).json(error.body);
   }
+}
+
+function auth(req, res, next) {
+  checkToken(req, res, (user) => {
+    req.user = user;
+    next();
+  }, { status: 401, body: {msg: 'Unauthorized'}});
+}
+
+function load(req, res) {
+  checkToken(req, res, (user) => {
+    user.token = generate(user.email);
+    user.save().then(() => {
+      res.cookie('auth', user.token, {maxAge: ms('7 days')});
+      res.json(user);
+    }, (error) => {
+      console.error(error);
+      res.status(500).json({msg: 'Contact an administrator', err: error});
+    });
+  }, { status: 200, body: null});
 }
 
 function login(req, res) {
@@ -125,6 +139,7 @@ function deleteUser(req, res) {
 }
 
 const users = {
+  auth: auth,
   load: load,
   login: login,
   logout: logout,

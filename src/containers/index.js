@@ -4,4 +4,5 @@ export Signup from './Signup/Signup';
 export Login from './Login/Login';
 // export Product from './Product/Product';
 export Profile from './Profile/Profile';
+export Admin from './Admin/Admin';
 export NotFound from './NotFound/NotFound';

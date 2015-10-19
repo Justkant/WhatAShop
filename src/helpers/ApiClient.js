@@ -2,7 +2,7 @@ import superagent from 'superagent';
 import config from '../config';
 
 class ApiClient_ {
-  constructor(req) {
+  constructor(req, res) {
     ['get', 'post', 'put', 'patch', 'del'].forEach((method) => {
       this[method] = (path, options) => {
         return new Promise((resolve, reject) => {
@@ -22,11 +22,14 @@ class ApiClient_ {
           if (options && options.data) {
             request.send(options.data);
           }
-          request.end((err, res) => {
+          request.end((err, response) => {
+            if (__SERVER__) {
+              res.set('set-cookie', response.header['set-cookie']);
+            }
             if (err) {
-              reject((res && res.body) || err);
+              reject((response && response.body) || err);
             } else {
-              resolve(res.body);
+              resolve(response.body);
             }
           });
         });

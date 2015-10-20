@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Tabs, Tab } from 'components';
 
 @connect(state => ({user: state.auth.user}))
 export default class Profile extends Component {
@@ -9,62 +10,38 @@ export default class Profile extends Component {
 
   constructor() {
     super();
-    this.state = {
-      settings: true,
-      orders: false
-    };
-  }
-
-  changeTab(state) {
-    switch (state) {
-      case 'settings':
-        this.setState({settings: true, orders: false});
-        break;
-      case 'orders':
-        this.setState({settings: false, orders: true});
-        break;
-      default:
-        this.setState({settings: true, orders: false});
-    }
   }
 
   render() {
     const {user} = this.props;
-    const {settings, orders} = this.state;
     const styles = require('./Profile.styl');
     const array = [];
     for (let index = 0; index < 50; index++) {
       array.push(user.username);
     }
     return (
-      <div className={styles.main}>
-        <div className={styles.tabContainer}>
-          <div onClick={this.changeTab.bind(this, 'settings')}
-               className={styles.tab + (settings ? (' ' + styles.active) : '')}>
-            <i className="material-icons md-38">settings</i>
-            <span>Settings</span>
+      <Tabs containerClass={styles.main}>
+        <Tab label="Profile" icon="person">
+          <div className={styles.settingsContainer}>
+            <div className={styles.setting}>
+              <h4 className={styles.settingHead}>Profile</h4>
+            </div>
+            <div className={styles.setting}>
+              <h4>Password</h4>
+            </div>
+            <div className={styles.setting}>
+              <h4>Delete account</h4>
+            </div>
           </div>
-          <div onClick={this.changeTab.bind(this, 'orders')}
-               className={styles.tab + (orders ? (' ' + styles.active) : '')}>
-            <i className="material-icons md-38">list</i>
-            <span>Orders</span>
-          </div>
-        </div>
-        {settings && (
+        </Tab>
+        <Tab label="Orders" icon="list">
           <div className={styles.container}>
-            {array.map((name) => {
-              return (<div className={styles.element}><h1>{name}</h1></div>);
+            {array.map((name, index) => {
+              return (<div className={styles.element} key={name + index}><h1>{'Orders of ' + name}</h1></div>);
             })}
           </div>
-        )}
-        {orders && (
-          <div className={styles.container}>
-            {array.map((name) => {
-              return (<div className={styles.element}><h1>{'Orders of ' + name}</h1></div>);
-            })}
-          </div>
-        )}
-      </div>
+        </Tab>
+      </Tabs>
     );
   }
 }

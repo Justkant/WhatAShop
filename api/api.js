@@ -3,7 +3,7 @@ require('../server.babel'); // babel registration (runtime transpilation for nod
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import config from './config';
+import config from '../src/config';
 import { users, products } from './functions';
 import PrettyError from 'pretty-error';
 import Thinky from 'thinky';

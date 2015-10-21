@@ -19,13 +19,13 @@ app.post('/login', users.login);
 app.get('/logout', users.logout);
 
 app.route('/users')
-  .get(users.auth, users.getUsers)
+  .get(users.auth, users.isAdmin, users.getUsers)
   .post(users.addUser);
 
 app.route('/users/:id')
   .get(users.auth, users.getUser)
-  .put(users.auth, users.updateUser)
-  .delete(users.auth, users.deleteUser);
+  .put(users.auth, users.isOwner, users.updateUser)
+  .delete(users.auth, users.isOwner, users.deleteUser);
 
 app.route('/products')
   .get(products.getProducts)

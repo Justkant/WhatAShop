@@ -31,6 +31,12 @@ export default class App extends Component {
     user: PropTypes.object
   };
 
+  componentDidMount() {
+    if (this.props.user) {
+      window.localStorage.token = this.props.user.token;
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
       // login
@@ -40,6 +46,8 @@ export default class App extends Component {
       // logout
       window.localStorage.removeItem('token');
       this.props.pushState(null, '/signup');
+    } else if (nextProps.user && nextProps.user.token !== window.localStorage.token) {
+      window.localStorage.token = nextProps.user.token;
     }
   }
 

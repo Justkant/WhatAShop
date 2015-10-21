@@ -14,11 +14,101 @@
 
 .setting {
   display: flex;
-  padding-top: 20px;
-  padding-bottom: 40px;
+  padding: 40px 0;
 
   &:not(:last-child) {
     border-bottom: 1px solid #E7E7EC;
+  }
+}
+
+.settingLeft {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 30%;
+  padding: 0 20px;
+}
+
+.settingRight {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 70%;
+  padding-left: 10%;
+}
+
+.settingHead {
+  color: #3585b5;
+  font-weight: 300;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.red {
+  color: #D64242;
+}
+
+.settingText {
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.inputContainer {
+  margin-bottom: 20px;
+  max-width: 80%;
+  position: relative;
+
+  label {
+    font-size: 12px;
+    margin-bottom: 10px;
+    color: #999;
+    display: block;
+  }
+
+  input {
+    width: 70%;
+    height: 34px;
+    padding: 8px 12px;
+    display: block;
+    margin: 0;
+    border: 1px solid #cbcbd2;
+    background: white;
+    font-size: 14px;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(203,203,210,0.4);
+
+    &:focus {
+      border-color: #3585b5;
+      outline: 0;
+    }
+  }
+
+  &.separator {
+    padding-bottom: 20px;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 65%;
+      height: 1px;
+      background-image: linear-gradient(to right,rgba(231,231,236,0) 0,rgba(231,231,236,.7) 10%,#e7e7ec 50%,rgba(231,231,236,.7) 90%,rgba(231,231,236,0) 100%);
+    }
+  }
+}
+
+.button {
+  border: 0;
+  border-radius: 4px;
+  padding: 6px 18px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 14px;
+  color: white;
+  background-color: #3585b5;
+  cursor: pointer;
+
+  &.buttonRed {
+    background-color: #D64242;
   }
 }
 

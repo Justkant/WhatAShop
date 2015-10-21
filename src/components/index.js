@@ -8,3 +8,4 @@ export LoginForm from './LoginForm/LoginForm';
 export ProductVignette from './ProductVignette/ProductVignette';
 export Tabs from './Tabs/Tabs';
 export Tab from './Tab/Tab';
+export FakeInput from './FakeInput/FakeInput';

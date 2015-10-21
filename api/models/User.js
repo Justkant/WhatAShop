@@ -11,4 +11,9 @@ const User = thinky.createModel('User', {
   token: type.string()
 });
 
+User.define('getPublic', function() {
+  delete this.password;
+  return this;
+});
+
 export default User;

@@ -1,8 +1,6 @@
-/**
- * Created by julienzhang1 on 18/10/15.
- */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Tabs, Tab } from 'components';
 
 @connect(state => ({user: state.auth.user}))
 export default class Admin extends Component {
@@ -10,31 +8,9 @@ export default class Admin extends Component {
     user: PropTypes.object
   };
 
-  constructor() {
-    super();
-    this.state = {
-      users: true,
-      products: false
-    };
-  }
-
-  changeTab(state) {
-    switch (state) {
-      case 'users':
-        this.setState({users: true, products: false});
-        break;
-      case 'products':
-        this.setState({users: false, products: true});
-        break;
-      default:
-        this.setState({users: true, products: false});
-    }
-  }
-
   render() {
     /* const {user} = this.props; */
     const styles = require('./Admin.styl');
-    const {users, products} = this.state;
 
     const product = (
       <div className={styles.element}>
@@ -60,30 +36,18 @@ export default class Admin extends Component {
     }
 
     return (
-      <div className={styles.main}>
-        <div className={styles.tabContainer}>
-          <div onClick={this.changeTab.bind(this, 'users')}
-               className={styles.tab + (users ? (' ' + styles.active) : '')}>
-            <i className="material-icons md-38">person</i>
-            <span>Users</span>
-          </div>
-          <div onClick={this.changeTab.bind(this, 'products')}
-               className={styles.tab + (products ? (' ' + styles.active) : '')}>
-            <i className="material-icons md-38">assignment</i>
-            <span>Products</span>
-          </div>
-        </div>
-        {users && (
+      <Tabs containerClass={styles.main}>
+        <Tab label="Users" icon="people">
           <div className={styles.container}>
             {userList}
           </div>
-        )}
-        {products && (
+        </Tab>
+        <Tab label="Products" icon="list">
           <div className={styles.container}>
             {productList}
           </div>
-        )}
-      </div>
+        </Tab>
+      </Tabs>
     );
   }
 }

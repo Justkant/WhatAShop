@@ -47,7 +47,7 @@ export default function(store) {
   const requireAdmin = (nextState, replaceState, cb) => {
     function checkAdmin() {
       const { auth: { user }} = store.getState();
-      if (!user || user.admin) {
+      if (!user || !user.admin) {
         replaceState(null, '/');
       }
       cb();

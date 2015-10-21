@@ -19,11 +19,13 @@ export default class Navbar extends React.Component {
       name: user ? user.username : '',
       image: 'default-user.png'
     };
-    const menuLinks = [
-      {to: '/profile', name: 'Profile'},
-      {to: '/admin', name: 'Admin'},
-      {func: this.props.logout, name: 'Logout'}
-    ];
+
+    const menuLinks = [];
+    menuLinks.push({to: '/profile', name: 'Profile'});
+    if (user.admin) {
+      menuLinks.push({to: '/admin', name: 'Admin'});
+    }
+    menuLinks.push({func: this.props.logout, name: 'Logout'});
 
     return (
       <div className={styles.navbar}>

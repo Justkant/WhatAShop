@@ -10,6 +10,12 @@ const LOGIN_FAIL = 'auth/LOGIN_FAIL';
 const LOGOUT = 'auth/LOGOUT';
 const LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS';
 const LOGOUT_FAIL = 'auth/LOGOUT_FAIL';
+const UPDATE = 'auth/UPDATE';
+const UPDATE_SUCCESS = 'auth/UPDATE_SUCCESS';
+const UPDATE_FAIL = 'auth/UPDATE_FAIL';
+const DELETE = 'auth/DELETE';
+const DELETE_SUCCESS = 'auth/DELETE_SUCCESS';
+const DELETE_FAIL = 'auth/DELETE_FAIL';
 
 const initialState = {
   loaded: false
@@ -89,6 +95,40 @@ export default function reducer(state = initialState, action = {}) {
         loggingOut: false,
         logoutError: action.error
       };
+    case UPDATE:
+      return {
+        ...state,
+        updating: true
+      };
+    case UPDATE_SUCCESS:
+      return {
+        ...state,
+        updating: false,
+        user: action.result
+      };
+    case UPDATE_FAIL:
+      return {
+        ...state,
+        updating: false,
+        updateError: action.error
+      };
+    case DELETE:
+      return {
+        ...state,
+        deleting: true
+      };
+    case DELETE_SUCCESS:
+      return {
+        ...state,
+        deleting: false,
+        user: null
+      };
+    case DELETE_FAIL:
+      return {
+        ...state,
+        deleting: false,
+        deleteError: action.error
+      };
     default:
       return state;
   }
@@ -116,6 +156,20 @@ export function login(user) {
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
     promise: (client) => client.post('/login', { data: user })
+  };
+}
+
+export function update(id, data) {
+  return {
+    types: [UPDATE, UPDATE_SUCCESS, UPDATE_FAIL],
+    promise: (client) => client.put('/users/' + id, { data: data })
+  };
+}
+
+export function remove(id) {
+  return {
+    types: [DELETE, DELETE_SUCCESS, DELETE_FAIL],
+    promise: (client) => client.del('/users/' + id)
   };
 }
 

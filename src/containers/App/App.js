@@ -3,25 +3,7 @@ import DocumentMeta from 'react-document-meta';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 import { Navbar, Search } from 'components';
-
-const title = 'WhatAShop';
-const description = 'WhatAShop, an online shopping website.';
-const image = require('./logo.png');
-
-const meta = {
-  title,
-  description,
-  meta: {
-    charSet: 'utf-8',
-    property: {
-      'og:site_name': title,
-      'og:image': image,
-      'og:locale': 'en_US',
-      'og:title': title,
-      'og:description': description
-    }
-  }
-};
+import config from 'config';
 
 @connect(state => ({user: state.auth.user}), {pushState})
 export default class App extends Component {
@@ -66,7 +48,7 @@ export default class App extends Component {
 
     return (
       <div className="fullFlex">
-        <DocumentMeta {...meta}/>
+        <DocumentMeta {...config.app}/>
         {user && loginApp}
         {!user && children}
       </div>

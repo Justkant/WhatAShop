@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import config from '../config';
+import config from '../../src/config';
 
 export function generate(email) {
   return jwt.sign({email: email}, config.secret, { expiresIn: '7 days' });

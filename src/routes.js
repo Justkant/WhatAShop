@@ -6,8 +6,13 @@ import {
   Market,
   Signup,
   Login,
+  ProfileContainer,
   Profile,
+  Orders,
   Admin,
+  Panel,
+  Users,
+  Products,
   NotFound
 } from './containers';
 
@@ -63,8 +68,15 @@ export default function(store) {
   return (
     <Route path="/" component={App}>
       <IndexRoute component={Market} onEnter={requireAuth}/>
-      <Route path="profile" component={Profile} onEnter={requireAuth}/>
-      <Route path="admin" component={Admin} onEnter={requireAdmin}/>
+      <Route path="profile" component={ProfileContainer} onEnter={requireAuth}>
+        <IndexRoute component={Profile}/>
+        <Route path="orders" component={Orders}/>
+      </Route>
+      <Route path="admin" component={Admin} onEnter={requireAdmin}>
+        <IndexRoute component={Panel}/>
+        <Route path="users" component={Users}/>
+        <Route path="products" component={Products}/>
+      </Route>
       <Route path="signup" component={Signup} onEnter={alreadyAuth}/>
       <Route path="login" component={Login} onEnter={alreadyAuth}/>
       <Route path="*" component={NotFound} status={404} onEnter={requireAuth}/>

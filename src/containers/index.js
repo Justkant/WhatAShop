@@ -6,3 +6,8 @@ export Login from './Login/Login';
 export Profile from './Profile/Profile';
 export Admin from './Admin/Admin';
 export NotFound from './NotFound/NotFound';
+export Orders from './Orders/Orders';
+export Panel from './Panel/Panel';
+export Products from './Products/Products';
+export ProfileContainer from './ProfileContainer/ProfileContainer';
+export Users from './Users/Users';

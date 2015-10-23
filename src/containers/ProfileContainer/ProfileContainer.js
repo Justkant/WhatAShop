@@ -1,28 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 import { TabNav } from 'components';
 
-export default class Admin extends Component {
+export default class ProfileContainer extends Component {
   static propTypes = {
     children: PropTypes.any
   };
 
   render() {
-    const styles = require('./Admin.styl');
+    const styles = require('./ProfileContainer.styl');
     const indexTab = {
-      name: 'Panel',
-      icon: 'dashboard',
-      route: '/admin'
+      name: 'Profile',
+      icon: 'person',
+      route: '/profile'
     };
     const tabs = [
       {
-        name: 'Users',
-        icon: 'people',
-        route: '/admin/users'
-      },
-      {
-        name: 'Products',
+        name: 'Orders',
         icon: 'list',
-        route: '/admin/products'
+        route: '/profile/orders'
       }
     ];
 

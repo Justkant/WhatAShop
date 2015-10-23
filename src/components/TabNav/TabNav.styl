@@ -1,0 +1,36 @@
+.container {
+  flex: 1 0 55px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  box-shadow: inset 0 -1px 0 #E7E7EC;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  cursor: pointer;
+  color: #999;
+  border-bottom: 1px solid transparent;
+  text-decoration: none;
+
+  &:not(.active):hover {
+    color: #7D7D8E;
+    border-bottom: 1px solid #7D7D8E;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  span {
+    margin-left: 10px;
+    font-weight: 300;
+  }
+}
+
+.active {
+  color: #3585b5;
+  border-bottom: 1px solid #3585b5;
+}

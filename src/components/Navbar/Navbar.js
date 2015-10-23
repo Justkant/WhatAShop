@@ -17,7 +17,7 @@ export default class Navbar extends React.Component {
     const {user} = this.props;
     const infos = {
       name: user ? user.username : '',
-      image: 'default-user.png'
+      image: '/default-user.png'
     };
 
     const menuLinks = [];

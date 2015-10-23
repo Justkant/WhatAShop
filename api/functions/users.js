@@ -44,14 +44,7 @@ function auth(req, res, next) {
 
 function load(req, res) {
   checkToken(req, res, (user) => {
-    user.token = generate(user.email);
-    user.save().then(() => {
-      res.cookie('auth', user.token, {maxAge: ms('7 days')});
-      res.json(user.getPublic());
-    }, (error) => {
-      console.error(error);
-      res.status(500).json({msg: 'Contact an administrator', err: error});
-    });
+    res.json(user.getPublic());
   }, { status: 200, body: null});
 }
 

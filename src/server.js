@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import config from './config';
 import favicon from 'serve-favicon';
+import compression from 'compression';
 import httpProxy from 'http-proxy';
 import path from 'path';
 import createStore from './redux/create';
@@ -24,9 +25,14 @@ const proxy = httpProxy.createProxyServer({
   target: 'http://localhost:' + config.apiPort
 });
 
+app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 
-app.use(require('serve-static')(path.join(__dirname, '..', 'static')));
+const staticOptions = {};
+if (!__DEVELOPMENT__) {
+  staticOptions.maxAge = '60 days';
+}
+app.use(require('serve-static')(path.join(__dirname, '..', 'static'), staticOptions));
 
 // Proxy to API server
 app.use('/api', (req, res) => {

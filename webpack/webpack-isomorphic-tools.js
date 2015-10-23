@@ -11,17 +11,23 @@ module.exports = {
         'jpeg',
         'jpg',
         'png',
-        'gif',
-        'svg'
+        'gif'
       ],
       parser: WebpackIsomorphicToolsPlugin.url_loader_parser
     },
+    svg: {
+      extension: 'svg',
+      parser: WebpackIsomorphicToolsPlugin.url_loader_parser
+    },
     style_modules: {
-      extensions: ['styl'],
-      filter: function (m, regex) {
-        return regex.test(m.name);
+      extension: 'styl',
+      filter: function (m, regex, options) {
+        if (!options.development) {
+          return regex.test(m.name);
+        }
+        return (regex.test(m.name) && m.name.slice(-4) === 'styl' && m.reasons[0].moduleName.slice(-4) === 'styl');
       },
-      naming: function (m, options, log) {
+      naming: function (m, options) {
         //find index of '/src' inside the module name, slice it and resolve path
         var srcIndex = m.name.indexOf('/src');
         var name = '.' + m.name.slice(srcIndex);
@@ -34,7 +40,7 @@ module.exports = {
         }
         return name;
       },
-      parser: function (m, options, log) {
+      parser: function (m, options) {
         if (m.source) {
           var regex = options.development ? /exports\.locals = ((.|\n)+);/ : /module\.exports = ((.|\n)+);/;
           var match = m.source.match(regex);

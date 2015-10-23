@@ -16,6 +16,9 @@ const UPDATE_FAIL = 'auth/UPDATE_FAIL';
 const DELETE = 'auth/DELETE';
 const DELETE_SUCCESS = 'auth/DELETE_SUCCESS';
 const DELETE_FAIL = 'auth/DELETE_FAIL';
+const USERS = 'auth/USERS';
+const USERS_SUCCESS = 'auth/USERS_SUCCESS';
+const USERS_FAIL = 'auth/USERS_FAIL';
 
 const initialState = {
   loaded: false
@@ -129,6 +132,25 @@ export default function reducer(state = initialState, action = {}) {
         deleting: false,
         deleteError: action.error
       };
+    case USERS:
+      return {
+        ...state,
+        usersLoading: true
+      };
+    case USERS_SUCCESS:
+      return {
+        ...state,
+        usersLoading: false,
+        usersLoaded: true,
+        users: action.result
+      };
+    case USERS_FAIL:
+      return {
+        ...state,
+        usersLoading: false,
+        usersLoaded: false,
+        usersError: action.error
+      };
     default:
       return state;
   }
@@ -136,6 +158,10 @@ export default function reducer(state = initialState, action = {}) {
 
 export function isLoaded(globalState) {
   return globalState.auth && globalState.auth.loaded;
+}
+
+export function isUsersLoaded(globalState) {
+  return globalState.auth && globalState.auth.usersLoaded;
 }
 
 export function load() {
@@ -170,6 +196,13 @@ export function remove(id) {
   return {
     types: [DELETE, DELETE_SUCCESS, DELETE_FAIL],
     promise: (client) => client.del('/users/' + id)
+  };
+}
+
+export function users() {
+  return {
+    types: [USERS, USERS_SUCCESS, USERS_FAIL],
+    promise: (client) => client.get('/users')
   };
 }
 

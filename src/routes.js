@@ -12,6 +12,7 @@ import {
   Admin,
   Panel,
   Users,
+  Product,
   Products,
   NotFound
 } from './containers';
@@ -72,6 +73,7 @@ export default function(store) {
         <IndexRoute component={Profile}/>
         <Route path="orders" component={Orders}/>
       </Route>
+      <Route path="product" component={Product} onEnter={requireAuth}/>
       <Route path="admin" component={Admin} onEnter={requireAdmin}>
         <IndexRoute component={Panel}/>
         <Route path="users" component={Users}/>

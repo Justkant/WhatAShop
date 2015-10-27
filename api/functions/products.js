@@ -1,10 +1,16 @@
 import { Product } from '../models';
 
 function getProducts(req, res) {
-  res.json([{title: 'Title'}]);
+  res.json([{
+    title: 'Title',
+    description: 'Nike shoes',
+    imageUrl: 'product.jpg',
+    price: '125$'
+  }]);
 }
 
 function getProduct(req, res) {
+  /* pourquoi product pop en orange ? */
   res.json(req.product.getPublic());
 }
 

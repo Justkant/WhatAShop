@@ -34,13 +34,13 @@ export default class Html extends Component {
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {Object.keys(assets.styles).map((style, index) =>
             <link href={assets.styles[style]} key={index} media="screen, projection"
-              rel="stylesheet" type="text/css"/>
+              rel="stylesheet" type="text/css" charSet="UTF-8"/>
           )}
         </head>
         <body>
           <div id="content" className="fullFlex" dangerouslySetInnerHTML={{__html: content}}/>
-          <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(store.getState())};`}} />
-          <script src={assets.javascript.main}/>
+          <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(store.getState())};`}} charSet="UTF-8"/>
+          <script src={assets.javascript.main} charSet="UTF-8"/>
         </body>
       </html>
     );

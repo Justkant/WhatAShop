@@ -22,7 +22,7 @@ export default class Products extends Component {
     this.checkFile = this.checkFile.bind(this);
   }
 
-  static fetchData(getState, dispatch) {
+  static fetchDataDeferred(getState, dispatch) {
     if (!isAllLoaded(getState())) {
       return dispatch(getAll());
     }
@@ -105,13 +105,15 @@ export default class Products extends Component {
     );
 
     const productsList = [];
-    for (const product of products) {
-      productsList.push(
-        <div className={styles.element} key={product.id}>
-          <img src={'/api/' + product.imageUrl}/>
-          <h4>{product.title}</h4>
-        </div>
-      );
+    if (products) {
+      for (const product of products) {
+        productsList.push(
+          <div className={styles.element} key={product.id}>
+            <img src={'/api/' + product.imageUrl}/>
+            <h4>{product.title}</h4>
+          </div>
+        );
+      }
     }
 
     return (

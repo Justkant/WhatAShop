@@ -10,7 +10,7 @@ export default class Product extends Component {
     params: PropTypes.object.isRequired
   };
 
-  static fetchData(getState, dispatch, location, params) {
+  static fetchDataDeferred(getState, dispatch, location, params) {
     if (!isProductLoaded(getState())) {
       return dispatch(getById(params.id));
     }

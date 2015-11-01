@@ -77,7 +77,8 @@ export default function reducer(state = initialState, action = {}) {
     case GETBYID:
       return {
         ...state,
-        gettingById: true
+        gettingById: true,
+        product: null
       };
     case GETBYID_SUCCESS:
       return {
@@ -91,6 +92,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         gettingById: false,
         gotById: false,
+        product: null,
         error: action.error
       };
     default:

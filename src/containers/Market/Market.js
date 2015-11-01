@@ -9,7 +9,7 @@ export default class Market extends Component {
     market: PropTypes.array
   };
 
-  static fetchData(getState, dispatch) {
+  static fetchDataDeferred(getState, dispatch) {
     if (!isMarketLoaded(getState())) {
       return dispatch(loadMarket());
     }
@@ -21,7 +21,7 @@ export default class Market extends Component {
 
     return (
       <div className={styles.container}>
-        {market.map((product) => {
+        {market && market.map((product) => {
           return (<ProductVignette product={product} key={product.id}/>);
         })}
       </div>

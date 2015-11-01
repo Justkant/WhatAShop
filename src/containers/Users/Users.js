@@ -8,7 +8,7 @@ export default class Users extends Component {
     users: PropTypes.array
   };
 
-  static fetchData(getState, dispatch) {
+  static fetchDataDeferred(getState, dispatch) {
     if (!isUsersLoaded(getState())) {
       return dispatch(getUsers());
     }
@@ -20,7 +20,7 @@ export default class Users extends Component {
 
     return (
       <div className={styles.container}>
-        {users.map((user, index) => {
+        {users && users.map((user, index) => {
           return (
             <div className={styles.element} key={user.username + index}>
               <img src="/default-user.png"/>

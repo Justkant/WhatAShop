@@ -1,45 +1,58 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { Title } from 'components';
+import { connect } from 'react-redux';
+import { isProductLoaded, getById } from 'redux/modules/product';
 
+@connect(state => ({product: state.product.product}))
 export default class Product extends Component {
+  static propTypes = {
+    product: PropTypes.object,
+    params: PropTypes.object.isRequired
+  };
+
+  static fetchData(getState, dispatch, location, params) {
+    if (!isProductLoaded(getState())) {
+      return dispatch(getById(params.id));
+    }
+  }
+
   render() {
+    const {product} = this.props;
     const styles = require('./Product.styl');
-    return (
-      <div className={styles.productContainer}>
 
-        <img src="product.jpg"/>
+    const finalRender = product ? (
+      <div className={styles.container}>
+        <Title title={product.title}/>
 
-        <div className={styles.mainInformations}>
+        <div className={styles.productContainer}>
 
-          <div className={styles.mainInformationsLeft}>
-            <h3>Brand</h3>
-            <h3>Price</h3>
+          <img src={'/api/' + product.imageUrl}/>
+
+          <div className={styles.mainInformations}>
+
+            <div className={styles.mainInformationsLeft}>
+              <h3>Brand</h3>
+              <h3>Price</h3>
+            </div>
+
+            <div className={styles.mainInformationsRight}>
+              <p>{product.title}</p>
+              <p>{product.price + ' $'}</p>
+            </div>
+
           </div>
 
-          <div className={styles.mainInformationsRight}>
-            <p>Nike</p>
-            <p>120$</p>
+          <div className={styles.additionalInformations}>
+            <p>{product.description}</p>
           </div>
-
         </div>
-
-        <div className={styles.additionalInformations}>
-          <p>Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque Fortuna plerumque dissidentes, quarum si altera defuisset, ad perfectam non venerat summitatem.</p>
-        </div>
-
+      </div>
+    ) : (
+      <div className={styles.container}>
+        <Title title="Loading"/>
       </div>
     );
+
+    return finalRender;
   }
 }
-
-/* OLD TEST
-<div className={styles.productContainer}>
-  <img src="product.jpg"/>
-  <div className={styles.productInfos}>
-    <h1>Title</h1>
-    <h2>Price</h2>
-    <div className={styles.productDescription}>
-      <p>Description : Tempore quo primis auspiciis in mundanum fulgorem surgeret victura dum erunt homines Roma, ut augeretur sublimibus incrementis, foedere pacis aeternae Virtus convenit atque Fortuna plerumque dissidentes, quarum si altera defuisset, ad perfectam non venerat summitatem.</p>
-    </div>
-  </div>
-</div>
-*/

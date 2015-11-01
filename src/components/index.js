@@ -9,3 +9,4 @@ export Tabs from './Tabs/Tabs';
 export Tab from './Tab/Tab';
 export TabNav from './TabNav/TabNav';
 export FakeInput from './FakeInput/FakeInput';
+export Title from './Title/Title';

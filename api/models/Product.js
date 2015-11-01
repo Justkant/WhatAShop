@@ -6,7 +6,8 @@ const Product = thinky.createModel('Product', {
   title: type.string().required(),
   description: type.string().optional(),
   imageUrl: type.string().optional(),
-  price: type.number().required()
+  price: type.number().required(),
+  createdAt: type.date().default(thinky.r.now())
 });
 
 export default Product;

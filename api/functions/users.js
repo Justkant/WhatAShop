@@ -79,10 +79,41 @@ function logout(req, res) {
   res.json(null);
 }
 
+/**
+ * @api {get} /users Request All Users
+ * @apiName GetUsers
+ * @apiGroup User
+ */
 function getUsers(req, res) {
-  res.json([{username: 'kant'}]);
+  User.orderBy('-createdAt').run().then((result) => {
+    res.json(result);
+  });
 }
 
+/**
+ * @api {get} /users/:id Request User Information
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id Users unique ID.
+ *
+ * @apiSuccess {String} username The users name.
+ * @apiSuccess {String} email The users email.
+ * @apiSuccess {String} token The users token.
+ * @apiSuccess {String} pictureUrl The users picture url.
+ * @apiSuccess {Boolean} admin The users right.
+ * @apiSuccess {Date} createdAt The users creation date.
+ *
+ * @apiSuccessExample Example data on success:
+ * {
+ *   username: 'Kant',
+ *   email: 'Kant@gmail.com',
+ *   token: 'IOEJVofz@fohinsmov24azd5niermogunqeprofinzqoe8297',
+ *   pictureUrl: 'uploads/picture-94305067460.png',
+ *   admin: true,
+ *   createdAt: Wed Oct 21 2015 14:33:53 GMT+00:00
+ * }
+ */
 function getUser(req, res) {
   res.json(req.user.getPublic());
 }

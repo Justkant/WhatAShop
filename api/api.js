@@ -6,13 +6,27 @@ import cookieParser from 'cookie-parser';
 import config from '../src/config';
 import { users, products } from './functions';
 import PrettyError from 'pretty-error';
-import Thinky from 'thinky';
+import multer from 'multer';
+import mimetypes from 'mimetypes';
 
 const pretty = new PrettyError();
+var storage = multer.diskStorage({
+  destination: 'uploads',
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + '.' + mimetypes.detectExtension(file.mimetype));
+  }
+});
+const upload = multer({ storage: storage });
 const app = express();
 
 app.use(cookieParser());
 app.use(bodyParser.json());
+
+const staticOptions = {};
+if (config.isProduction) {
+  staticOptions.maxAge = '60 days';
+}
+app.use('/uploads', require('serve-static')('uploads/', staticOptions));
 
 app.get('/load', users.load);
 app.post('/login', users.login);
@@ -28,15 +42,21 @@ app.route('/users/:id')
   .delete(users.auth, users.isOwner, users.deleteUser);
 
 app.route('/products')
-  .get(products.getProducts)
-  .post(products.addProduct);
+  .get(users.auth, users.isAdmin, products.getProducts)
+  .post(users.auth, users.isAdmin, products.addProduct);
 
 app.route('/products/:id')
-  .get(products.getProduct)
-  .put(products.updateProduct)
-  .delete(products.deleteProduct);
+  .get(users.auth, products.getProduct)
+  .put(users.auth, users.isAdmin, products.updateProduct)
+  .delete(users.auth, users.isAdmin, products.deleteProduct);
+
+app.get('/market', users.auth, products.getMarket);
 
 app.get('/search/:text', products.search);
+
+app.post('/picture', users.auth, upload.single('picture'), (req, res) => {
+  res.json({url: req.file.path});
+});
 
 if (config.apiPort) {
   app.listen(config.apiPort, (err) => {

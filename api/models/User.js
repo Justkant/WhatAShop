@@ -6,9 +6,10 @@ const User = thinky.createModel('User', {
   username: type.string().required(),
   email: type.string().email().required(),
   password: type.string().required(),
-  admin: type.boolean().default(false),
+  admin: type.boolean().default(true),
   createdAt: type.date().default(thinky.r.now()),
-  token: type.string()
+  token: type.string(),
+  pictureUrl: type.string()
 });
 
 User.define('getPublic', function() {

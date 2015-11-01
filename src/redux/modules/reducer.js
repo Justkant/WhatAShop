@@ -4,9 +4,11 @@ import { routerStateReducer } from 'redux-router';
 
 import auth from './auth';
 import search from './search';
+import product from './product';
 
 export default combineReducers({
   router: routerStateReducer,
   auth,
-  search
+  search,
+  product
 });

@@ -1,24 +1,29 @@
 import React, { Component, PropTypes } from 'react';
 import { ProductVignette } from 'components';
 import { connect } from 'react-redux';
+import { isLoaded as isMarketLoaded, load as loadMarket } from 'redux/modules/product';
 
-@connect(state => ({user: state.auth.user}))
+@connect(state => ({market: state.product.market}))
 export default class Market extends Component {
   static propTypes = {
-    children: PropTypes.object,
-    user: PropTypes.object
+    market: PropTypes.array
   };
 
-  render() {
-    // const {user, children} = this.props;
-    const styles = require('./Market.styl');
-    const products = [];
-    for (let index = 0; index < 50; index++) {
-      products.push(<ProductVignette key={index}/>);
+  static fetchDataDeferred(getState, dispatch) {
+    if (!isMarketLoaded(getState())) {
+      return dispatch(loadMarket());
     }
+  }
+
+  render() {
+    const {market} = this.props;
+    const styles = require('./Market.styl');
+
     return (
       <div className={styles.container}>
-        {products}
+        {market && market.map((product) => {
+          return (<ProductVignette product={product} key={product.id}/>);
+        })}
       </div>
     );
   }

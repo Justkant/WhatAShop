@@ -6,6 +6,127 @@
   overflow: auto;
 }
 
+.createProduct {
+  display: flex;
+  border-radius: 4px;
+  margin-bottom: 10px;
+
+  &:not(.active) {
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #999;
+    cursor: pointer;
+    color: #999;
+  }
+
+  &.active {
+    background: white;
+    box-shadow: 0 1px 2px rgba(0,0,0,.05),0 0 0 1px rgba(63,63,68,.1);
+  }
+}
+
+.formContainer {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.form {
+  display: flex;
+  flex: 0 0 150px;
+}
+
+.imgContainer {
+  display: flex;
+  border: 1px solid #cbcbd2;
+  flex: 0 0 150px;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #999;
+  margin-right: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 2px rgba(203,203,210,0.4);
+
+  img {
+    max-width: 100%;
+    height: auto !important;
+  }
+
+  input {
+    display: none;
+  }
+}
+
+.infosContainer {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  input {
+    width: 50%;
+    flex: 0 0 34px;
+    padding: 8px 12px;
+    margin: 0;
+    margin-bottom: 20px;
+    display: block;
+    border: 1px solid #cbcbd2;
+    background: white;
+    font-size: 14px;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(203,203,210,0.4);
+
+    &:focus {
+      border-color: #3585b5;
+      outline: 0;
+    }
+  }
+
+  textarea {
+    width: 50%;
+    max-width: 50%;
+    flex: 0 0 68px;
+    padding: 8px 12px;
+    margin: 0;
+    margin-bottom: 20px;
+    display: block;
+    border: 1px solid #cbcbd2;
+    background: white;
+    font-size: 14px;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(203,203,210,0.4);
+    resize: none;
+
+    &:focus {
+      border-color: #3585b5;
+      outline: 0;
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button {
+  margin-left: 20px;
+  border: 0;
+  border-radius: 4px;
+  background: #3585b5;
+  color: white;
+  font-size: 14px;
+  padding: 10px 20px;
+  cursor: pointer;
+
+  &.red {
+    background: #D64242;
+  }
+}
+
 .element {
   display: flex;
   align-items: center;
@@ -19,10 +140,9 @@
   img {
     height: 40px;
     width: auto;
-    border-radius: 50%;
   }
 
-  span {
+  h4 {
     margin-left: 10px;
     font-size: 16px;
     font-weight: 400;

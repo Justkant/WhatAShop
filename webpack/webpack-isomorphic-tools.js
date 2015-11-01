@@ -27,7 +27,7 @@ module.exports = {
         }
         return (regex.test(m.name) && m.name.slice(-4) === 'styl' && m.reasons[0].moduleName.slice(-4) === 'styl');
       },
-      naming: function (m, options) {
+      path: function (m, options) {
         //find index of '/src' inside the module name, slice it and resolve path
         var srcIndex = m.name.indexOf('/src');
         var name = '.' + m.name.slice(srcIndex);

@@ -1,94 +1,70 @@
 import { Product } from '../models';
+import { shuffle } from '../utils/functions';
 
 function getProducts(req, res) {
-  res.json([{
-    title: 'Title',
-    description: 'Nike shoes',
-    imageUrl: 'product.jpg',
-    price: '125$'
-  }]);
+  Product.orderBy('-createdAt').run().then((result) => {
+    res.json(result);
+  });
 }
 
 function getProduct(req, res) {
-  /* pourquoi product pop en orange ? */
-  res.json(req.product.getPublic());
+  Product.get(req.params.id).run().then((product) => {
+    res.json(product);
+  }, (error) => {
+    res.status(404).json({msg: 'Product not found'});
+  });
 }
 
 function addProduct(req, res) {
-
   const product = new Product({
     title: req.body.title,
     description: req.body.description,
     imageUrl: req.body.imageUrl,
-    price: req.body.price
+    price: 0
   });
 
   product.save().then(() => {
     res.json(product);
-    }, (error) => {
-      console.error(error);
-      res.status(500).json({msg: 'Contact an administrator', err: error});
-    });
-}
-
-function updateProduct(req, res) {
-  const product = {};
-  const promises = [];
-
-  if (req.body.title && req.body.title != req.product.title) {
-    promises.push(new Promise((resolve, reject) => {
-      product.title = req.body.title;
-      resolve();
-    }, (error) => {
-      console.error(error);
-      res.status(500).json({msg: 'Contact an administrator', err: error});
-      reject();
-    }));
-  }
-
-  if (req.body.price && req.body.price !== req.product.price) {
-    promises.push(new Promise((resolve) => {
-      product.price = req.body.price;
-      resolve();
-    }, (error) => {
-      console.error(error);
-      res.status(500).json({msg: 'Contact an administrator', err: error});
-      reject();
-    }));
-  }
-
-  if (req.body.description && req.body.description !== req.product.description) {
-    promises.push(new Promise((resolve) => {
-      product.description = req.body.description;
-      resolve();
-    }, (error) => {
-      console.error(error);
-      res.status(500).json({msg: 'Contact an administrator', err: error});
-      reject();
-    }));
-  }
-
-  Promise.all(promises).then(() => {
-    req.product.merge(product).save().then((result) => {
-      res.json(req.product.getPublic());
-    }, (error) => {
-      console.error(error);
-      res.status(400).json({msg: 'Something went wrong', err: error});
-    });
-  });
-}
-
-function deleteProduct(req, res) {
-  req.product.delete().then(() => {
-    res.json({msg: 'Account deleted'});
   }, (error) => {
     console.error(error);
     res.status(500).json({msg: 'Contact an administrator', err: error});
   });
 }
 
+function updateProduct(req, res) {
+  Product.get(req.params.id).run().then((product) => {
+    product.merge(req.body).save().then((result) => {
+      res.json(product);
+    }, (error) => {
+      console.error(error);
+      res.status(400).json({msg: 'Something went wrong', err: error});
+    });
+  }, (error) => {
+    res.status(404).json({msg: 'Product not found'});
+  });
+}
+
+function deleteProduct(req, res) {
+  Product.get(req.params.id).run().then((product) => {
+    product.delete().then(() => {
+      res.json({msg: 'Product deleted'});
+    }, (error) => {
+      console.error(error);
+      res.status(500).json({msg: 'Contact an administrator', err: error});
+    });
+  }, (error) => {
+    res.status(404).json({msg: 'Product not found'});
+  });
+}
+
 function search(req, res) {
 
+}
+
+function getMarket(req, res) {
+  Product.run().then((result) => {
+    res.json(shuffle(result));
+  });
 }
 
 const products = {
@@ -97,7 +73,8 @@ const products = {
   addProduct: addProduct,
   updateProduct: updateProduct,
   deleteProduct: deleteProduct,
-  search: search
+  search: search,
+  getMarket: getMarket
 };
 
 export default products;

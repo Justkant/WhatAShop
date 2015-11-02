@@ -41,6 +41,13 @@ app.route('/users/:id')
   .put(users.auth, users.isOwner, users.updateUser)
   .delete(users.auth, users.isOwner, users.deleteUser);
 
+app.route('/users/:id/cart')
+  .get(users.auth, users.getUserCart)
+  .post(users.auth, users.addUserProduct);
+
+app.route('/users/:id/orders')
+  .get(users.auth, users.getUserOrders);
+
 app.route('/products')
   .get(users.auth, users.isAdmin, products.getProducts)
   .post(users.auth, users.isAdmin, products.addProduct);
@@ -52,7 +59,7 @@ app.route('/products/:id')
 
 app.get('/market', users.auth, products.getMarket);
 
-app.get('/search/:text', products.search);
+app.get('/search/:text', users.auth, products.search);
 
 app.post('/picture', users.auth, upload.single('picture'), (req, res) => {
   res.json({url: req.file.path});

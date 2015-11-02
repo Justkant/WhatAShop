@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { IndexLink } from 'react-router';
+import { IndexLink, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { DropDownButton } from 'components';
 import { logout } from 'redux/modules/auth';
@@ -36,6 +36,15 @@ export default class Navbar extends React.Component {
         </div>
         <div className={styles.menuContainer}>
           <DropDownButton infos={infos} links={menuLinks}/>
+        </div>
+        <div className={styles.cartContainer}>
+          <Link to="/cart" className={styles.cartTitle}>Cart</Link>
+          <div className={styles.productList}>
+            <div><p>Nike shoes</p></div>
+            <div><p>Nike shoes long long text</p></div>
+            <div><p>Nike shoes</p></div>
+            <div><p>Nike shoes</p></div>
+          </div>
         </div>
       </div>
     );

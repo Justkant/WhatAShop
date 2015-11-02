@@ -249,6 +249,18 @@ function isAdmin(req, res, next) {
   }
 }
 
+function getUserCart(req, res) {
+  res.json(req.user.cart);
+}
+
+function addUserProduct(req, res) {
+  res.json(req.body);
+}
+
+function getUserOrders(req, res) {
+  res.json(req.user.Orders);
+}
+
 const users = {
   auth: auth,
   load: load,
@@ -260,7 +272,10 @@ const users = {
   updateUser: updateUser,
   deleteUser: deleteUser,
   isOwner: isOwner,
-  isAdmin: isAdmin
+  isAdmin: isAdmin,
+  getUserCart: getUserCart,
+  addUserProduct: addUserProduct,
+  getUserOrders: getUserOrders
 };
 
 export default users;

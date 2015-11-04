@@ -42,11 +42,22 @@ app.route('/users/:id')
   .delete(users.auth, users.isOwner, users.deleteUser);
 
 app.route('/users/:id/cart')
-  .get(users.auth, users.getUserCart)
-  .post(users.auth, users.addUserProduct);
+  .get(users.auth, users.isOwner, users.getUserCart)
+  .post(users.auth, users.isOwner, users.addUserProduct);
+
+app.route('/users/:id/cart/:cartId')
+  .get(users.auth, users.isOwner, users.getUserCartItem)
+  .put(users.auth, users.isOwner, users.updateCartItem)
+  .delete(users.auth, users.isOwner, users.deleteCartItem);
 
 app.route('/users/:id/orders')
-  .get(users.auth, users.getUserOrders);
+  .get(users.auth, users.isOwner, users.getUserOrders)
+  .post(users.auth, users.isOwner, users.validateCart);
+
+app.route('/users/:id/orders/:orderId')
+  .get(users.auth, users.isOwner, users.getUserOrder)
+  .put(users.auth, users.isAdmin, users.updateOrder)
+  .delete(users.auth, users.isAdmin, users.deleteOrder);
 
 app.route('/products')
   .get(users.auth, users.isAdmin, products.getProducts)

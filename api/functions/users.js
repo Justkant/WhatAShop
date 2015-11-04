@@ -257,8 +257,36 @@ function addUserProduct(req, res) {
   res.json(req.body);
 }
 
+function getUserCartItem(req, res) {
+  res.json(null);
+}
+
+function updateCartItem(req, res) {
+  res.json(null);
+}
+
+function deleteCartItem(req, res) {
+  res.json(null);
+}
+
 function getUserOrders(req, res) {
   res.json(req.user.Orders);
+}
+
+function validateCart(req, res) {
+  res.json(null);
+}
+
+function getUserOrder(req, res) {
+  res.json(null);
+}
+
+function updateOrder(req, res) {
+  res.json(null);
+}
+
+function deleteOrder(req, res) {
+  res.json(null);
 }
 
 const users = {
@@ -275,7 +303,14 @@ const users = {
   isAdmin: isAdmin,
   getUserCart: getUserCart,
   addUserProduct: addUserProduct,
-  getUserOrders: getUserOrders
+  getUserCartItem: getUserCartItem,
+  updateCartItem: updateCartItem,
+  deleteCartItem: deleteCartItem,
+  getUserOrders: getUserOrders,
+  validateCart: validateCart,
+  getUserOrder: getUserOrder,
+  updateOrder: updateOrder,
+  deleteOrder: deleteOrder
 };
 
 export default users;

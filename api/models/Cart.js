@@ -3,7 +3,7 @@ const type = thinky.type;
 
 const Cart = thinky.createModel('Cart', {
   id: type.string(),
-  nbItem: type.number(),
+  nbItem: type.number().default(1),
   userId: type.string(),
   orderId: type.string(),
   productId: type.string()

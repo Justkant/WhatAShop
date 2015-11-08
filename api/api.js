@@ -43,7 +43,8 @@ app.route('/users/:id')
 
 app.route('/users/:id/cart')
   .get(users.auth, users.isOwner, users.getUserCart)
-  .post(users.auth, users.isOwner, users.addUserProduct);
+  .post(users.auth, users.isOwner, users.addUserProduct)
+  .delete(users.auth, users.isOwner, users.deleteUserCart);
 
 app.route('/users/:id/cart/:cartId')
   .get(users.auth, users.isOwner, users.getUserCartItem)

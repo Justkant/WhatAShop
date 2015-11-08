@@ -5,6 +5,7 @@ const type = thinky.type;
 const Order = thinky.createModel('Order', {
   id: type.string(),
   createdAt: type.date().default(thinky.r.now()),
+  status: type.string().default('validating'),
   userId: type.string()
 });
 

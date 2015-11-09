@@ -12,7 +12,7 @@ export default class ProductVignette extends Component {
 
     return (
       <div className={styles.productContainer}>
-        <Link to={'/product/' + product.id}>
+        <Link to={'/product/' + product.id} className={styles.imgContainer}>
           <img src={'/api/' + product.imageUrl}/>
         </Link>
         <div className={styles.productInfos}>

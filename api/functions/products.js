@@ -20,7 +20,7 @@ function addProduct(req, res) {
     title: req.body.title,
     description: req.body.description,
     imageUrl: req.body.imageUrl,
-    price: 0
+    price: req.body.price
   });
 
   product.save().then(() => {

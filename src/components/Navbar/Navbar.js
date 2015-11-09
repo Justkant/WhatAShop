@@ -37,7 +37,7 @@ export default class Navbar extends React.Component {
         <div className={styles.menuContainer}>
           <DropDownButton infos={infos} links={menuLinks}/>
         </div>
-        {user && user.cart.length > 0 &&
+        {user && user.cart && user.cart.length > 0 &&
           <div className={styles.cartContainer}>
             <Link to="/cart" className={styles.cartTitle}>
               <i className="material-icons md-18">shopping_cart</i>

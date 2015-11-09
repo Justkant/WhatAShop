@@ -30,14 +30,15 @@ export default class Products extends Component {
 
   addProduct() {
     const self = this;
-    const {title, desc} = this.refs;
+    const {title, desc, price} = this.refs;
     const client = new ApiClient();
 
     client.post('/picture', { data: this.state.newFile }).then((result) => {
       const product = {
         title: title.value,
         description: desc.value,
-        imageUrl: result.url
+        imageUrl: result.url,
+        price: price.value
       };
       self.props.create(product).then(() => {
         self.toggleActive();
@@ -93,6 +94,7 @@ export default class Products extends Component {
               <div className={styles.infosContainer}>
                 <input type="text" ref="title" placeholder="Title"/>
                 <textarea ref="desc" placeholder="Description..."/>
+                <input type="number" ref="price" placeholder="Price"/>
               </div>
             </div>
             <div className={styles.buttons}>

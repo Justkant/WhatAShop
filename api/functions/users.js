@@ -48,7 +48,7 @@ function load(req, res) {
 }
 
 function login(req, res) {
-  User.filter({email: req.body.email}).then((results) => {
+  User.filter({email: req.body.email}).getJoin().then((results) => {
     if (results.length > 0) {
       let user = results[0];
       authenticate(req.body.password, user.password).then(() => {

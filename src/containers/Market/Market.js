@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { ProductVignette } from 'components';
 import { connect } from 'react-redux';
-import { isLoaded as isMarketLoaded, load as loadMarket } from 'redux/modules/product';
+import { load as loadMarket } from 'redux/modules/product';
 
 @connect(state => ({market: state.product.market}))
 export default class Market extends Component {
@@ -10,9 +10,7 @@ export default class Market extends Component {
   };
 
   static fetchDataDeferred(getState, dispatch) {
-    if (!isMarketLoaded(getState())) {
-      return dispatch(loadMarket());
-    }
+    return dispatch(loadMarket());
   }
 
   render() {

@@ -265,7 +265,14 @@ function addUserProduct(req, res) {
     });
 
     cart.saveAll().then((result) => {
-      res.json(result);
+      req.user.cartTotal += product.price * result.nbItem;
+      req.user.save().then(() => {
+        req.user.cart.push(result);
+        res.json(req.user.getPublic());
+      }, (error) => {
+        console.error(error.message);
+        res.status(400).json({msg: 'Something went wrong', err: error.message});
+      });
     }, (error) => {
       console.error(error.message);
       res.status(400).json({msg: 'Something went wrong', err: error.message});
@@ -292,7 +299,13 @@ function deleteCart(cart) {
 
 function deleteUserCart(req, res) {
   deleteCart(req.user.cart).then(() => {
-    res.json({msg: 'Cart deleted'});
+    req.user.cartTotal = 0;
+    req.user.save().then(() => {
+      res.json(req.user.getPublic());
+    }, (error) => {
+      console.error(error.message);
+      res.status(400).json({msg: 'Something went wrong', err: error.message});
+    });
   }, (error) => {
     console.error(error.message);
     res.status(400).json({msg: 'Something went wrong', err: error.message});
@@ -310,12 +323,17 @@ function getUserCartItem(req, res) {
 
 function updateCartItem(req, res) {
   Cart.get(req.params.cartId).getJoin().run().then((cartItem) => {
+    req.user.cartTotal -= cartItem.product.price * cartItem.nbItem;
     cartItem.nbItem = req.body.nbItem;
     cartItem.save().then(() => {
-      res.json(cartItem);
+      req.user.cartTotal += cartItem.product.price * cartItem.nbItem;
+      req.user.save().then(() => {
+        res.json(req.user.getPublic());
+      }, (error) => {
+        console.error(error.message);
+        res.status(400).json({msg: 'Something went wrong', err: error.message});
+      });
     }, (error) => {
-      console.error(error.message);
-      res.status(400).json({msg: 'Something went wrong', err: error.message});
     });
   }, (error) => {
     console.error(error.message);
@@ -324,9 +342,20 @@ function updateCartItem(req, res) {
 }
 
 function deleteCartItem(req, res) {
-  Cart.get(req.params.cartId).run().then((cartItem) => {
+  Cart.get(req.params.cartId).getJoin().run().then((cartItem) => {
     cartItem.delete().then(() => {
-      res.json({msg: 'Cart item deleted'});
+      req.user.cartTotal -= cartItem.product.price * cartItem.nbItem;
+      req.user.save().then(() => {
+        let pos = -1;
+        req.user.cart.forEach((cartItem2, index) => {
+          if (cartItem2.id === cartItem.id) pos = index;
+        });
+        if (pos !== -1) req.user.cart.splice(pos, 1);
+        res.json(req.user.getPublic());
+      }, (error) => {
+        console.error(error.message);
+        res.status(400).json({msg: 'Something went wrong', err: error.message});
+      });
     }, (error) => {
       console.error(error.message);
       res.status(400).json({msg: 'Something went wrong', err: error.message});
@@ -343,6 +372,7 @@ function getUserOrders(req, res) {
 
 function validateCart(req, res) {
   (new Order({
+    cartTotal: req.user.cartTotal,
     userId: req.user.id
   })).save().then((result) => {
     req.user.cart.forEach((cartItem) => {
@@ -354,7 +384,13 @@ function validateCart(req, res) {
     });
 
     deleteCart(req.user.cart).then(() => {
-      res.json(result);
+      req.user.cartTotal = 0;
+      req.user.save().then(() => {
+        res.json(result);
+      }, (error) => {
+        console.error(error.message);
+        res.status(400).json({msg: 'Something went wrong', err: error.message});
+      })
     }, (error) => {
       console.error(error.message);
       res.status(400).json({msg: 'Something went wrong', err: error.message});

@@ -16,7 +16,8 @@ export default class ProductVignette extends Component {
           <img src={'/api/' + product.imageUrl}/>
         </Link>
         <div className={styles.productInfos}>
-          <p>{product.title}</p>
+          <Link to={'/product/' + product.id} className={styles.title}>{product.title}</Link>
+          <p className={styles.price}>{product.price} $</p>
         </div>
       </div>
     );

@@ -19,6 +19,12 @@ const DELETE_FAIL = 'auth/DELETE_FAIL';
 const USERS = 'auth/USERS';
 const USERS_SUCCESS = 'auth/USERS_SUCCESS';
 const USERS_FAIL = 'auth/USERS_FAIL';
+const ADDCART = 'auth/ADDCART';
+const ADDCART_SUCCESS = 'auth/ADDCART_SUCCESS';
+const ADDCART_FAIL = 'auth/ADDCART_FAIL';
+const DELCART = 'auth/DELCART';
+const DELCART_SUCCESS = 'auth/DELCART_SUCCESS';
+const DELCART_FAIL = 'auth/DELCART_FAIL';
 
 const initialState = {
   loaded: false
@@ -151,6 +157,40 @@ export default function reducer(state = initialState, action = {}) {
         usersLoaded: false,
         usersError: action.error
       };
+    case ADDCART:
+      return {
+        ...state,
+        addingCart: true
+      };
+    case ADDCART_SUCCESS:
+      return {
+        ...state,
+        addingCart: false,
+        user: action.result
+      };
+    case ADDCART_FAIL:
+      return {
+        ...state,
+        addingCart: false,
+        cartAddError: action.error
+      };
+    case DELCART:
+      return {
+        ...state,
+        deletingCart: true
+      };
+    case DELCART_SUCCESS:
+      return {
+        ...state,
+        deletingCart: false,
+        user: action.result
+      };
+    case DELCART_FAIL:
+      return {
+        ...state,
+        deletingCart: false,
+        cartDelError: action.error
+      };
     default:
       return state;
   }
@@ -210,5 +250,19 @@ export function logout() {
   return {
     types: [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL],
     promise: (client) => client.get('/logout')
+  };
+}
+
+export function addToCart(userId, id) {
+  return {
+    types: [ADDCART, ADDCART_SUCCESS, ADDCART_FAIL],
+    promise: (client) => client.post('/users/' + userId + '/cart', {data: {productId: id}})
+  };
+}
+
+export function deleteCartItem(userId, cartId) {
+  return {
+    types: [DELCART, DELCART_SUCCESS, DELCART_FAIL],
+    promise: (client) => client.del('/users/' + userId + '/cart/' + cartId)
   };
 }

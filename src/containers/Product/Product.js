@@ -2,18 +2,30 @@ import React, { Component, PropTypes } from 'react';
 import { Title } from 'components';
 import { connect } from 'react-redux';
 import { isProductLoaded, getById } from 'redux/modules/product';
+import { addToCart } from 'redux/modules/auth';
 
-@connect(state => ({product: state.product.product}))
+@connect(state => ({user: state.auth.user, product: state.product.product}), {addToCart})
 export default class Product extends Component {
   static propTypes = {
+    user: PropTypes.object,
     product: PropTypes.object,
-    params: PropTypes.object.isRequired
+    params: PropTypes.object.isRequired,
+    addToCart: PropTypes.func.isRequired
   };
+
+  constructor() {
+    super();
+    this.addProduct = this.addProduct.bind(this);
+  }
 
   static fetchDataDeferred(getState, dispatch, location, params) {
     if (!isProductLoaded(getState())) {
       return dispatch(getById(params.id));
     }
+  }
+
+  addProduct() {
+    this.props.addToCart(this.props.user.id, this.props.product.id);
   }
 
   render() {
@@ -26,24 +38,20 @@ export default class Product extends Component {
 
         <div className={styles.productContainer}>
 
-          <img src={'/api/' + product.imageUrl}/>
-
-          <div className={styles.mainInformations}>
-
-            <div className={styles.mainInformationsLeft}>
-              <h3>Brand</h3>
-              <h3>Price</h3>
-            </div>
-
-            <div className={styles.mainInformationsRight}>
-              <p>{product.title}</p>
-              <p>{product.price + ' $'}</p>
-            </div>
-
+          <div className={styles.imgContainer}>
+            <img src={'/api/' + product.imageUrl}/>
           </div>
 
-          <div className={styles.additionalInformations}>
-            <p>{product.description}</p>
+          <div className={styles.mainInformations}>
+              <p className={styles.price}><b>Price:</b> {product.price + ' $'}</p>
+              <p className={styles.desc}>{product.description}</p>
+          </div>
+
+          <div className={styles.addContainer}>
+            <button className={styles.addButton} onClick={this.addProduct}>
+              <i className="material-icons md-18">add_shopping_cart</i>
+              <span>Add</span>
+            </button>
           </div>
         </div>
       </div>

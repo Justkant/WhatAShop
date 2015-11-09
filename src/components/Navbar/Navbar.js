@@ -37,19 +37,24 @@ export default class Navbar extends React.Component {
         <div className={styles.menuContainer}>
           <DropDownButton infos={infos} links={menuLinks}/>
         </div>
-        <div className={styles.cartContainer}>
-          <Link to="/cart" className={styles.cartTitle}>
-            <i className="material-icons md-18">shopping_cart</i>
-            <span className={styles.cartTitleText}>Cart</span>
-            <span>38 $</span>
-          </Link>
-          <div className={styles.productList}>
-            <div><p>Nike shoes</p></div>
-            <div><p>Nike shoes long long text</p></div>
-            <div><p>Nike shoes</p></div>
-            <div><p>Nike shoes</p></div>
+        {user && user.cart.length > 0 &&
+          <div className={styles.cartContainer}>
+            <Link to="/cart" className={styles.cartTitle}>
+              <i className="material-icons md-18">shopping_cart</i>
+              <span className={styles.cartTitleText}>Cart</span>
+              <span>{user.cartTotal} $</span>
+            </Link>
+            <div className={styles.productList}>
+              {user.cart.map(({product}) => {
+                return (
+                  <Link to={'/product/' + product.id} activeClassName="active">
+                    <p>{product.title}</p>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        }
       </div>
     );
   }

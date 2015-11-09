@@ -11,7 +11,8 @@ const User = thinky.createModel('User', {
   admin: type.boolean().default(true),
   createdAt: type.date().default(thinky.r.now()),
   token: type.string(),
-  pictureUrl: type.string()
+  pictureUrl: type.string(),
+  cartTotal: type.number().default(0)
 });
 
 User.define('getPublic', function() {

@@ -103,12 +103,15 @@
 }
 
 .productList {
-  div {
+  a {
+    display: block;
+    color: white;
     border-radius: 4px;
     padding: 10px 20px;
     cursor: pointer;
+    text-decoration: none;
 
-    &:hover {
+    &:hover, &:global(.active) {
       background: rgba(255, 255, 255, 0.1);
     }
 

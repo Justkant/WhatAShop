@@ -6,7 +6,8 @@ const Order = thinky.createModel('Order', {
   id: type.string(),
   createdAt: type.date().default(thinky.r.now()),
   status: type.string().default('validating'),
-  userId: type.string()
+  userId: type.string(),
+  cartTotal: type.number().required()
 });
 
 Order.hasMany(Cart, 'cart', 'id', 'orderId');

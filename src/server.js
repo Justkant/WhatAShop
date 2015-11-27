@@ -32,7 +32,7 @@ const staticOptions = {};
 if (!__DEVELOPMENT__) {
   staticOptions.maxAge = '60 days';
 }
-app.use(require('serve-static')(path.join(__dirname, '..', 'static'), staticOptions));
+app.use(Express.static(path.join(__dirname, '..', 'static'), staticOptions));
 
 // Proxy to API server
 app.use('/api', (req, res) => {

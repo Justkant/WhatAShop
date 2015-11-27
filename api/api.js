@@ -26,7 +26,7 @@ const staticOptions = {};
 if (config.isProduction) {
   staticOptions.maxAge = '60 days';
 }
-app.use('/uploads', require('serve-static')('uploads/', staticOptions));
+app.use('/uploads', express.static('uploads/', staticOptions));
 
 app.get('/load', users.load);
 app.post('/login', users.login);

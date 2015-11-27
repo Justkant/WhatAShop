@@ -1,4 +1,4 @@
-import { createStore as _createStore, applyMiddleware } from 'redux';
+import { createStore as _createStore, applyMiddleware, compose } from 'redux';
 import createMiddleware from './middleware/clientMiddleware';
 import transitionMiddleware from './middleware/transitionMiddleware';
 
@@ -6,7 +6,14 @@ export default function createStore(reduxReactRouter, getRoutes, createHistory, 
   const middleware = [createMiddleware(client), transitionMiddleware];
 
   let finalCreateStore;
-  finalCreateStore = applyMiddleware(...middleware)(_createStore);
+  if (__DEVELOPMENT__ && __CLIENT__) {
+    finalCreateStore = compose(
+      applyMiddleware(...middleware),
+      window.devToolsExtension ? window.devToolsExtension() : funk => funk
+    )(_createStore);
+  } else {
+    finalCreateStore = applyMiddleware(...middleware)(_createStore);
+  }
   finalCreateStore = reduxReactRouter({ getRoutes, createHistory })(finalCreateStore);
 
   const reducer = require('./modules/reducer');

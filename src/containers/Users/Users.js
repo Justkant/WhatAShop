@@ -1,18 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { isUsersLoaded, users as getUsers } from 'redux/modules/auth';
+import connectData from 'helpers/connectData';
 
+function fetchDataDeferred(getState, dispatch) {
+  if (!isUsersLoaded(getState())) {
+    return dispatch(getUsers());
+  }
+}
+
+@connectData(null, fetchDataDeferred)
 @connect(state => ({users: state.auth.users}))
 export default class Users extends Component {
   static propTypes = {
     users: PropTypes.array
   };
-
-  static fetchDataDeferred(getState, dispatch) {
-    if (!isUsersLoaded(getState())) {
-      return dispatch(getUsers());
-    }
-  }
 
   render() {
     const {users = []} = this.props;

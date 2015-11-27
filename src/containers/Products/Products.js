@@ -2,7 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { create, isAllLoaded, getAll } from 'redux/modules/product';
 import ApiClient from 'helpers/ApiClient';
+import connectData from 'helpers/connectData';
 
+function fetchDataDeferred(getState, dispatch) {
+  if (!isAllLoaded(getState())) {
+    return dispatch(getAll());
+  }
+}
+
+@connectData(null, fetchDataDeferred)
 @connect(state => ({products: state.product.products}), {create})
 export default class Products extends Component {
   static propTypes = {
@@ -20,12 +28,6 @@ export default class Products extends Component {
     this.addProduct = this.addProduct.bind(this);
     this.open = this.open.bind(this);
     this.checkFile = this.checkFile.bind(this);
-  }
-
-  static fetchDataDeferred(getState, dispatch) {
-    if (!isAllLoaded(getState())) {
-      return dispatch(getAll());
-    }
   }
 
   addProduct() {

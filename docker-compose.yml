@@ -1,0 +1,13 @@
+web:
+  build: .
+  ports:
+    - "3030:3030"
+  links:
+    - "db"
+
+db:
+  image: rethinkdb
+  environment:
+    - POSTGRES_PASSWORD=justkant
+    - POSTGRES_USER=kant
+    - POSTGRES_DB=ilovemycity

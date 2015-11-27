@@ -3,7 +3,15 @@ import { Title } from 'components';
 import { connect } from 'react-redux';
 import { isProductLoaded, getById } from 'redux/modules/product';
 import { addToCart } from 'redux/modules/auth';
+import connectData from 'helpers/connectData';
 
+function fetchDataDeferred(getState, dispatch, location, params) {
+  if (!isProductLoaded(getState())) {
+    return dispatch(getById(params.id));
+  }
+}
+
+@connectData(null, fetchDataDeferred)
 @connect(state => ({user: state.auth.user, product: state.product.product}), {addToCart})
 export default class Product extends Component {
   static propTypes = {
@@ -16,12 +24,6 @@ export default class Product extends Component {
   constructor() {
     super();
     this.addProduct = this.addProduct.bind(this);
-  }
-
-  static fetchDataDeferred(getState, dispatch, location, params) {
-    if (!isProductLoaded(getState())) {
-      return dispatch(getById(params.id));
-    }
   }
 
   addProduct() {

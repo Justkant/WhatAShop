@@ -11,7 +11,7 @@ export default class Orders extends Component {
     return (
       <div className={styles.container}>
         {array.map((value, index) => {
-          return (<div className={styles.element} key={value + index}><h1>{value}</h1></div>);
+          return (<div className={styles.element} key={value + index}><h4>{value}</h4></div>);
         })}
       </div>
     );

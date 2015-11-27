@@ -32,7 +32,7 @@ const staticOptions = {};
 if (!__DEVELOPMENT__) {
   staticOptions.maxAge = '60 days';
 }
-app.use(require('serve-static')(path.join(__dirname, '..', 'static'), staticOptions));
+app.use(Express.static(path.join(__dirname, '..', 'static'), staticOptions));
 
 // Proxy to API server
 app.use('/api', (req, res) => {
@@ -108,7 +108,7 @@ if (config.port) {
       console.error(err);
     }
     console.info('----\n==> ✅  %s is running, talking to API server on %s.', config.app.title, config.apiPort);
-    console.info('==> 💻  Open http://localhost:%s in a browser to view the app.', config.port);
+    console.info('==> 💻  Open http://%s:%s in a browser to view the app.', config.host, config.port);
   });
 } else {
   console.error('==>     ERROR: No PORT environment variable has been specified');

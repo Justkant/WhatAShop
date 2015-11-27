@@ -6,7 +6,7 @@ export default class Panel extends Component {
 
     return (
       <div className={styles.container}>
-        <h4>Panel</h4>
+        <h4>Panel in construction</h4>
       </div>
     );
   }

@@ -21,30 +21,34 @@ module.exports = {
     },
     style_modules: {
       extension: 'styl',
-      filter: function (m, regex, options) {
-        if (!options.development) {
-          return regex.test(m.name);
+      filter: function(module, regex, options, log) {
+        if (options.development) {
+          // in development mode there's webpack "style-loader",
+          // so the module.name is not equal to module.name
+          return WebpackIsomorphicToolsPlugin.style_loader_filter(module, regex, options, log);
+        } else {
+          // in production mode there's no webpack "style-loader",
+          // so the module.name will be equal to the asset path
+          return regex.test(module.name);
         }
-        return (regex.test(m.name) && m.name.slice(-4) === 'styl' && m.reasons[0].moduleName.slice(-4) === 'styl');
       },
-      path: function (m, options) {
-        //find index of '/src' inside the module name, slice it and resolve path
-        var srcIndex = m.name.indexOf('/src');
-        var name = '.' + m.name.slice(srcIndex);
-        if (name) {
-          // Resolve the e.g.: "C:\"  issue on windows
-          const i = name.indexOf(':');
-          if (i >= 0) {
-            name = name.slice(i + 1);
-          }
+      path: function(module, options, log) {
+        if (options.development) {
+          // in development mode there's webpack "style-loader",
+          // so the module.name is not equal to module.name
+          return WebpackIsomorphicToolsPlugin.style_loader_path_extractor(module, options, log);
+        } else {
+          // in production mode there's no webpack "style-loader",
+          // so the module.name will be equal to the asset path
+          return module.name;
         }
-        return name;
       },
-      parser: function (m, options) {
-        if (m.source) {
-          var regex = options.development ? /exports\.locals = ((.|\n)+);/ : /module\.exports = ((.|\n)+);/;
-          var match = m.source.match(regex);
-          return match ? JSON.parse(match[1]) : {};
+      parser: function(module, options, log) {
+        if (options.development) {
+          return WebpackIsomorphicToolsPlugin.css_modules_loader_parser(module, options, log);
+        } else {
+          // in production mode there's Extract Text Loader which extracts CSS text away
+          return module.source;
         }
       }
     }

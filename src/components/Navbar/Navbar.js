@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { IndexLink } from 'react-router';
+import { IndexLink, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { DropDownButton } from 'components';
 import { logout } from 'redux/modules/auth';
@@ -37,6 +37,24 @@ export default class Navbar extends React.Component {
         <div className={styles.menuContainer}>
           <DropDownButton infos={infos} links={menuLinks}/>
         </div>
+        {user && user.cart && user.cart.length > 0 &&
+          <div className={styles.cartContainer}>
+            <Link to="/cart" className={styles.cartTitle}>
+              <i className="material-icons md-18">shopping_cart</i>
+              <span className={styles.cartTitleText}>Cart</span>
+              <span>{user.cartTotal} $</span>
+            </Link>
+            <div className={styles.productList}>
+              {user.cart.map(({product}) => {
+                return (
+                  <Link to={'/product/' + product.id} activeClassName="active">
+                    <p>{product.title}</p>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        }
       </div>
     );
   }

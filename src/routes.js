@@ -14,7 +14,8 @@ import {
   Users,
   Product,
   Products,
-  NotFound
+  NotFound,
+  Cart
 } from './containers';
 
 export default function(store) {
@@ -73,6 +74,7 @@ export default function(store) {
         <IndexRoute component={Profile}/>
         <Route path="orders" component={Orders}/>
       </Route>
+      <Route path="cart" component={Cart} onEnter={requireAuth}/>
       <Route path="product/:id" component={Product} onEnter={requireAuth}/>
       <Route path="admin" component={Admin} onEnter={requireAdmin}>
         <IndexRoute component={Panel}/>

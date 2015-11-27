@@ -11,3 +11,4 @@ export Panel from './Panel/Panel';
 export Products from './Products/Products';
 export ProfileContainer from './ProfileContainer/ProfileContainer';
 export Users from './Users/Users';
+export Cart from './Cart/Cart';

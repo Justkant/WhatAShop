@@ -1,0 +1,18 @@
+web:
+  build: .
+  ports:
+    - "8000:8000"
+  links:
+    - "rdb:webdb"
+  environment:
+    - DOCKER_HOST=${DOCKER_HOST}
+
+rdb:
+  image: rethinkdb
+  volumes_from:
+    - rdbdata
+
+rdbdata:
+  image: tianon/true
+  volumes:
+    - /data

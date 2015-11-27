@@ -6,15 +6,45 @@
   margin: 10px;
 }
 
-.productContainer img {
+.imgContainer {
+  height: 150px;
   max-width: 200px;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  img {
+    height: auto;
+    width: 100%;
+    cursor: pointer;
+  }
 }
 
 .productInfos {
   padding: 20px 10px;
-}
 
-.productInfos p {
-  margin: 0;
+  p {
+    margin: 0;
+  }
+
+  .title {
+    display: block;
+    margin-bottom: 10px;
+    color: #3585b5;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .price {
+    color: #D64242;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+  }
 }

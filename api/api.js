@@ -26,7 +26,7 @@ const staticOptions = {};
 if (config.isProduction) {
   staticOptions.maxAge = '60 days';
 }
-app.use('/uploads', require('serve-static')('uploads/', staticOptions));
+app.use('/uploads', express.static('uploads/', staticOptions));
 
 app.get('/load', users.load);
 app.post('/login', users.login);
@@ -41,6 +41,25 @@ app.route('/users/:id')
   .put(users.auth, users.isOwner, users.updateUser)
   .delete(users.auth, users.isOwner, users.deleteUser);
 
+app.route('/users/:id/cart')
+  .get(users.auth, users.isOwner, users.getUserCart)
+  .post(users.auth, users.isOwner, users.addUserProduct)
+  .delete(users.auth, users.isOwner, users.deleteUserCart);
+
+app.route('/users/:id/cart/:cartId')
+  .get(users.auth, users.isOwner, users.getUserCartItem)
+  .put(users.auth, users.isOwner, users.updateCartItem)
+  .delete(users.auth, users.isOwner, users.deleteCartItem);
+
+app.route('/users/:id/orders')
+  .get(users.auth, users.isOwner, users.getUserOrders)
+  .post(users.auth, users.isOwner, users.validateCart);
+
+app.route('/users/:id/orders/:orderId')
+  .get(users.auth, users.isOwner, users.getUserOrder)
+  .put(users.auth, users.isAdmin, users.updateOrder)
+  .delete(users.auth, users.isAdmin, users.deleteOrder);
+
 app.route('/products')
   .get(users.auth, users.isAdmin, products.getProducts)
   .post(users.auth, users.isAdmin, products.addProduct);
@@ -52,7 +71,7 @@ app.route('/products/:id')
 
 app.get('/market', users.auth, products.getMarket);
 
-app.get('/search/:text', products.search);
+app.get('/search/:text', users.auth, products.search);
 
 app.post('/picture', users.auth, upload.single('picture'), (req, res) => {
   res.json({url: req.file.path});
@@ -64,7 +83,7 @@ if (config.apiPort) {
       console.error(err);
     }
     console.info('----\n==> 🌎  API is running on port %s', config.apiPort);
-    console.info('==> 💻  Send requests to http://localhost:%s ', config.apiPort);
+    console.info('==> 💻  Send requests to http://%s:%s ', config.host, config.apiPort);
   });
 } else {
   console.error('==>     ERROR: No PORT environment variable has been specified');

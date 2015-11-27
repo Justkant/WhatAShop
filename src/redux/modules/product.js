@@ -46,6 +46,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         creating: false,
         created: true,
+        products: state.products.concat(action.result),
         createdProduct: action.result
       };
     case CREATE_FAIL:

@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import config from '../../src/config';
 
-export function generate(email) {
-  return jwt.sign({email: email}, config.secret, { expiresIn: '7 days' });
+export function generate(id) {
+  return jwt.sign({id: id}, config.secret, { expiresIn: '7 days' });
 }
 
 export function verify(token) {

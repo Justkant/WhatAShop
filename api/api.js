@@ -83,7 +83,7 @@ if (config.apiPort) {
       console.error(err);
     }
     console.info('----\n==> 🌎  API is running on port %s', config.apiPort);
-    console.info('==> 💻  Send requests to http://localhost:%s ', config.apiPort);
+    console.info('==> 💻  Send requests to http://%s:%s ', config.host, config.apiPort);
   });
 } else {
   console.error('==>     ERROR: No PORT environment variable has been specified');

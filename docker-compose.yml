@@ -1,13 +1,18 @@
 web:
   build: .
   ports:
-    - "3030:3030"
+    - "8000:8000"
   links:
-    - "db"
-
-db:
-  image: rethinkdb
+    - "rdb:webdb"
   environment:
-    - POSTGRES_PASSWORD=justkant
-    - POSTGRES_USER=kant
-    - POSTGRES_DB=ilovemycity
+    - DOCKER_HOST=${DOCKER_HOST}
+
+rdb:
+  image: rethinkdb
+  volumes_from:
+    - rdbdata
+
+rdbdata:
+  image: tianon/true
+  volumes:
+    - /data

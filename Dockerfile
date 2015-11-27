@@ -8,6 +8,6 @@ RUN mkdir -p /src && cp -a /tmp/node_modules /src/
 WORKDIR /src
 ADD . /src
 
-EXPOSE 3000
+EXPOSE 8000
 
-CMD ["npm", "run", "dev"]
+CMD npm run build && npm run start

@@ -1,0 +1,11 @@
+.idea/
+.git/
+node_modules/
+dist/
+*.iml
+webpack-stats.json
+webpack-stats.debug.json
+npm-debug.log
+rethinkdb_data/
+uploads/
+doc/

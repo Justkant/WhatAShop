@@ -8,8 +8,8 @@ import createHistory from 'history/lib/createBrowserHistory';
 import useScroll from 'scroll-behavior/lib/useStandardScroll';
 import createStore from './redux/create';
 import ApiClient from './helpers/ApiClient';
-import {Provider} from 'react-redux';
-import {reduxReactRouter, ReduxRouter} from 'redux-router';
+import { Provider } from 'react-redux';
+import { reduxReactRouter, ReduxRouter } from 'redux-router';
 
 import getRoutes from './routes';
 import makeRouteHooksSafe from './helpers/makeRouteHooksSafe';
@@ -18,10 +18,10 @@ const client = new ApiClient();
 
 // Three different types of scroll behavior available.
 // Documented here: https://github.com/rackt/scroll-behavior
-const scrollablehistory = useScroll(createHistory);
+const scrollableHistory = useScroll(createHistory);
 
 const dest = document.getElementById('content');
-const store = createStore(reduxReactRouter, makeRouteHooksSafe(getRoutes), scrollablehistory, client, window.__data);
+const store = createStore(reduxReactRouter, makeRouteHooksSafe(getRoutes), scrollableHistory, client, window.__data);
 
 const component = (
   <Provider store={store} key="provider">

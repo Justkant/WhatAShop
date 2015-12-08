@@ -373,7 +373,7 @@ function getUserOrders(req, res) {
   res.json(req.user.orders);
 }
 
-function validateCart(req, res) {
+function validateCart(req, res, next) {
   (new Order({
     cartTotal: req.user.cartTotal,
     userId: req.user.id
@@ -389,7 +389,7 @@ function validateCart(req, res) {
     deleteCart(req.user.cart).then(() => {
       req.user.cartTotal = 0;
       req.user.save().then(() => {
-        res.json(result);
+        next();
       }, (error) => {
         console.error(error.message);
         res.status(400).json({msg: 'Something went wrong', err: error.message});

@@ -28,6 +28,9 @@ const DELCART_FAIL = 'auth/DELCART_FAIL';
 const UPDATECART = 'auth/UPDATECART';
 const UPDATECART_SUCCESS = 'auth/UPDATECART_SUCCESS';
 const UPDATECART_FAIL = 'auth/UPDATECART_FAIL';
+const VALIDATECART = 'auth/VALIDATECART';
+const VALIDATECART_SUCCESS = 'auth/VALIDATECART_SUCCESS';
+const VALIDATECART_FAIL = 'auth/VALIDATECART_FAIL';
 
 const initialState = {
   loaded: false
@@ -211,6 +214,23 @@ export default function reducer(state = initialState, action = {}) {
         updatingCart: false,
         cartUpdateError: action.error
       };
+    case VALIDATECART:
+      return {
+        ...state,
+        validatingCart: true
+      };
+    case VALIDATECART_SUCCESS:
+      return {
+        ...state,
+        validatingCart: false,
+        user: action.result
+      };
+    case VALIDATECART_FAIL:
+      return {
+        ...state,
+        validatingCart: false,
+        cartUpdateError: action.error
+      };
     default:
       return state;
   }
@@ -291,5 +311,12 @@ export function updateCartItem(userId, cartId, nbItem) {
   return {
     types: [UPDATECART, UPDATECART_SUCCESS, UPDATECART_FAIL],
     promise: (client) => client.put('/users/' + userId + '/cart/' + cartId, {data: {nbItem: nbItem}})
+  };
+}
+
+export function validateCart(userId) {
+  return {
+    types: [VALIDATECART, VALIDATECART_SUCCESS, VALIDATECART_FAIL],
+    promise: (client) => client.post('/users/' + userId + '/orders')
   };
 }

@@ -1,14 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Title } from 'components';
-import { deleteCartItem, updateCartItem } from 'redux/modules/auth';
+import { deleteCartItem, updateCartItem, validateCart } from 'redux/modules/auth';
+import { pushState } from 'redux-router';
 
-@connect(state => ({user: state.auth.user}), { deleteCartItem, updateCartItem })
+@connect(state => ({user: state.auth.user}), { deleteCartItem, updateCartItem, validateCart, pushState })
 export default class Cart extends Component {
   static propTypes = {
     user: PropTypes.object,
     deleteCartItem: PropTypes.func,
-    updateCartItem: PropTypes.func
+    updateCartItem: PropTypes.func,
+    validateCart: PropTypes.func,
+    pushState: PropTypes.func
   };
 
   handleFocus(ev) {
@@ -33,15 +36,20 @@ export default class Cart extends Component {
     this.props.deleteCartItem(this.props.user.id, productId);
   }
 
+  validateCart() {
+    this.props.validateCart(this.props.user.id);
+    this.props.pushState(null, '/profile/orders');
+  }
+
   render() {
     const styles = require('./Cart.styl');
     const {user} = this.props;
 
     return (
       <div className={styles.container}>
-        <Title title="Cart"/>
+        <Title title="Cart" showButton button="done" func={this.validateCart.bind(this)}/>
         <div className={styles.productContainer}>
-          {user && user.cart.map(({id, product, nbItem}) => {
+          {user && user.cart && user.cart.map(({id, product, nbItem}) => {
             return (
               <div className={styles.element} key={product.id}>
                 <div className={styles.imageContainer}>

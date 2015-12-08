@@ -11,10 +11,10 @@ import ApiClient from './helpers/ApiClient';
 import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
 
-import {ReduxRouter} from 'redux-router';
+import { ReduxRouter } from 'redux-router';
 import createHistory from 'history/lib/createMemoryHistory';
-import {reduxReactRouter, match} from 'redux-router/server';
-import {Provider} from 'react-redux';
+import { reduxReactRouter, match } from 'redux-router/server';
+import { Provider } from 'react-redux';
 import qs from 'query-string';
 import getRoutes from './routes';
 import getStatusFromRoutes from './helpers/getStatusFromRoutes';
@@ -46,9 +46,9 @@ proxy.on('error', (error, req, res) => {
     console.error('proxy error', error);
   }
   if (!res.headersSent) {
-    res.writeHead(500, {'content-type': 'application/json'});
+    res.writeHead(500, { 'content-type': 'application/json' });
   }
-  res.end(JSON.stringify({error: 'proxy_error', reason: error.message}));
+  res.end(JSON.stringify({ error: 'proxy_error', reason: error.message }));
 });
 
 app.use((req, res) => {

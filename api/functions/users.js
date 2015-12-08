@@ -322,23 +322,26 @@ function getUserCartItem(req, res) {
 }
 
 function updateCartItem(req, res) {
-  Cart.get(req.params.cartId).getJoin().run().then((cartItem) => {
-    req.user.cartTotal -= cartItem.product.price * cartItem.nbItem;
-    cartItem.nbItem = req.body.nbItem;
-    cartItem.save().then(() => {
-      req.user.cartTotal += cartItem.product.price * cartItem.nbItem;
-      req.user.save().then(() => {
-        res.json(req.user.getPublic());
-      }, (error) => {
-        console.error(error.message);
-        res.status(400).json({msg: 'Something went wrong', err: error.message});
-      });
-    }, (error) => {
-    });
-  }, (error) => {
-    console.error(error.message);
-    res.status(404).json({msg: 'Cart Item not found', err: error.message});
-  });
+  for (const cartPos in req.user.cart) {
+    if (req.user.cart[cartPos].id === req.params.cartId) {
+      req.user.cartTotal -= req.user.cart[cartPos].product.price * req.user.cart[cartPos].nbItem;
+      if (req.body.nbItem <= 0) {
+        res.status(400).json({msg: 'nbItem has to be a positive number'});
+      } else {
+        req.user.cart[cartPos].nbItem = req.body.nbItem;
+        req.user.cartTotal += req.user.cart[cartPos].product.price * req.user.cart[cartPos].nbItem;
+        req.user.saveAll().then(() => {
+          res.json(req.user.getPublic());
+        }, (error) => {
+          console.error(error.message);
+          res.status(400).json({msg: 'Something went wrong', err: error.message});
+        });
+      }
+      return;
+    }
+  }
+  console.error(error.message);
+  res.status(404).json({msg: 'Cart Item not found', err: error.message});
 }
 
 function deleteCartItem(req, res) {
@@ -370,7 +373,7 @@ function getUserOrders(req, res) {
   res.json(req.user.orders);
 }
 
-function validateCart(req, res) {
+function validateCart(req, res, next) {
   (new Order({
     cartTotal: req.user.cartTotal,
     userId: req.user.id
@@ -386,7 +389,7 @@ function validateCart(req, res) {
     deleteCart(req.user.cart).then(() => {
       req.user.cartTotal = 0;
       req.user.save().then(() => {
-        res.json(result);
+        next();
       }, (error) => {
         console.error(error.message);
         res.status(400).json({msg: 'Something went wrong', err: error.message});

@@ -1,5 +1,3 @@
-require('../server.babel'); // babel registration (runtime transpilation for node)
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -53,7 +51,7 @@ app.route('/users/:id/cart/:cartId')
 
 app.route('/users/:id/orders')
   .get(users.auth, users.isOwner, users.getUserOrders)
-  .post(users.auth, users.isOwner, users.validateCart);
+  .post(users.auth, users.isOwner, users.validateCart, users.load);
 
 app.route('/users/:id/orders/:orderId')
   .get(users.auth, users.isOwner, users.getUserOrder)

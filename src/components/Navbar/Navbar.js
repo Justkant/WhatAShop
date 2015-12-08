@@ -47,7 +47,7 @@ export default class Navbar extends React.Component {
             <div className={styles.productList}>
               {user.cart.map(({product}) => {
                 return (
-                  <Link to={'/product/' + product.id} activeClassName="active">
+                  <Link to={'/product/' + product.id} activeClassName="active" key={product.id}>
                     <p>{product.title}</p>
                   </Link>
                 );

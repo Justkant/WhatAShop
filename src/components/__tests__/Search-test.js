@@ -1,10 +1,10 @@
 /* eslint no-unused-expressions: 0*/
 import React from 'react';
-import {renderIntoDocument} from 'react-addons-test-utils';
-import { expect} from 'chai';
+import { renderIntoDocument } from 'react-addons-test-utils';
+import { expect } from 'chai';
 import { Search } from 'components';
 import { Provider } from 'react-redux';
-import {reduxReactRouter} from 'redux-router';
+import { reduxReactRouter } from 'redux-router';
 import createHistory from 'history/lib/createMemoryHistory';
 import createStore from 'redux/create';
 import ApiClient from 'helpers/ApiClient';
@@ -32,5 +32,4 @@ describe('Search', () => {
   it('should render correctly', () => {
     expect(renderer).to.be.ok;
   });
-
 });

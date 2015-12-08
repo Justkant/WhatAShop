@@ -21,7 +21,7 @@ import {
 export default function(store) {
   const requireAuth = (nextState, replaceState, cb) => {
     function checkAuth() {
-      const { auth: { user }} = store.getState();
+      const { auth: { user } } = store.getState();
       if (!user) {
         replaceState(null, '/signup');
       }
@@ -37,7 +37,7 @@ export default function(store) {
 
   const alreadyAuth = (nextState, replaceState, cb) => {
     function checkAuth() {
-      const { auth: { user }} = store.getState();
+      const { auth: { user } } = store.getState();
       if (user) {
         replaceState(null, '/');
       }
@@ -53,7 +53,7 @@ export default function(store) {
 
   const requireAdmin = (nextState, replaceState, cb) => {
     function checkAdmin() {
-      const { auth: { user }} = store.getState();
+      const { auth: { user } } = store.getState();
       if (!user || !user.admin) {
         replaceState(null, '/');
       }

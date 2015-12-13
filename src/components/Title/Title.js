@@ -17,7 +17,7 @@ export default class Title extends Component {
         <div className={styles.tab}>
           <span>{title}</span>
         </div>
-        {showButton && <button onClick={func}><i className="material-icons">{button}</i></button>}
+        {showButton && <button className={styles.button} onClick={func}><i className="material-icons">{button}</i></button>}
       </div>
     );
   }
